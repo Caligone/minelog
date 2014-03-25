@@ -1,2 +1,2 @@
-minelog-api
-===========
+# Minelog-API
+### The Minelog API
