@@ -19,11 +19,6 @@ module.exports = {
     id_server: {
       type: 'string',
       required: true
-    },
-    role: {
-      type: 'string',
-      in: ['ADMIN', 'MOD', 'PLAYER'],
-      defaultTO: 'PLAYER'
     }
 
   }

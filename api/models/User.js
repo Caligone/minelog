@@ -25,6 +25,11 @@ module.exports = {
     lastLogin: {
       type: 'datetime',
       defaultsTo: new Date().toISOString()
+    },
+    role: {
+      type: 'string',
+      in: ['ADMIN', 'PLAYER'],
+      defaultTo: 'PLAYER'
     }
   },
 
