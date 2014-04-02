@@ -1,4 +1,4 @@
-# Minelog-API - vAlpha
+# Minelog - vAlpha
 
 An (awesome) plateform for Minecraft players. Working with a server-side plugin which populates the minelog database with informations like block placed/broken, pvp ratio, etc.
 
