@@ -2,6 +2,29 @@
 
 An (awesome) plateform for Minecraft players. Working with a server-side plugin which populates the minelog database with informations like block placed/broken, pvp ratio, etc.
 
+## Getting started ##
+
+### Linux installation ###
+
+First, you will need to install [nodejs](http://nodejs.org/) and [npm](https://www.npmjs.org/‎) if it is not already done. [Mongodb](https://www.mongodb.org/) is also required.    
+After cloning this repo, update the node modules of the project:
+```sh
+npm update
+```
+Then install sails:
+```sh
+npm install -g sails
+```
+You can launch the app with the following command:
+```sh
+sails lift
+```
+
+### First test ###
+
+To ensure everything run smoothly, have a try at **http://127.0.0.1:1337/api/v1/user/create?pseudo=user1**    
+You are good to go!
+
 ## Plugin API methods
 The followings methods are used by the Bukkit plugin.
 
