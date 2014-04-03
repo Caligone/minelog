@@ -20,39 +20,39 @@ module.exports = {
      },
      ratio: {
        type: 'float',
-       defaultTo: 0
+       defaultsTo: 0
      },
      timePlayed: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      },
      blocksBroken: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      },
      blocksPlaced: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      },
      levelMax: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      },
      verbosity: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      },
      kills: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      },
      pvpDeaths: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      },
      stupidDeaths: {
        type: 'integer',
-       defaultTo: 0
+       defaultsTo: 0
      }
   }
 

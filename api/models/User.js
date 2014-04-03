@@ -27,7 +27,7 @@ module.exports = {
     role: {
       type: 'string',
       in: ['ADMIN', 'PLAYER'],
-      defaultTo: 'PLAYER'
+      defaultsTo: 'PLAYER'
     },
     servers: {
       collection: 'server',

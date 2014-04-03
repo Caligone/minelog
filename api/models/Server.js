@@ -30,17 +30,17 @@ module.exports = {
     key: {
       type: 'string',
       required: false,
-      defaultTo: Math.random().toString(36).replace(/[^a-z0-9]+/g, ''),
+      defaultsTo: Math.random().toString(36).replace(/[^a-z0-9]+/g, ''),
       unique: true
     },
     lastHeartBeat: {
       type: 'datetime',
-      defaultTo: new Date().toISOString(),
+      defaultsTo: new Date().toISOString(),
       required: false
     },
     active: {
       type: 'boolean',
-      defaultTo: true,
+      defaultsTo: true,
       required: false
     },
     users: {

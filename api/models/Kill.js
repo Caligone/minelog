@@ -23,7 +23,7 @@ module.exports = {
    },
    date : {
      type: 'datetime',
-     defaultTo: new Date().toISOString(),
+     defaultsTo: new Date().toISOString(),
      required: false
    },
    weapon: {
