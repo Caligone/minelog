@@ -12,13 +12,11 @@ module.exports = {
 
   attributes: {
 
-     id_user: {
-       type: 'string',
-       required: true
+     user: {
+       model: 'user'
      },
-    id_server: {
-        type: 'string',
-        required: true
+    server: {
+        model: 'server'
      },
      ratio: {
        type: 'float',

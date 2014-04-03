@@ -4,12 +4,11 @@
   "version": "0.0.1",
   "description": "The Minelog api",
   "dependencies": {
-    "sails": "0.9.13",
+    "sails": "~0.10.0-rc5",
     "grunt": "0.4.1",
     "ejs": "0.8.4",
     "optimist": "0.3.4",
-    "sails-mongo": "~0.9.7",
-    "bcrypt": "~0.7.7"
+    "sails-mongo": "~0.10.0-rc2"
   },
   "scripts": {
     "start": "node app.js",

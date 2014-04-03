@@ -6,8 +6,6 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-var bcrypt = require('bcrypt');
-
 module.exports = {
   adapter: 'mongo',
   schema: true,
@@ -30,13 +28,18 @@ module.exports = {
       type: 'string',
       in: ['ADMIN', 'PLAYER'],
       defaultTo: 'PLAYER'
+    },
+    servers: {
+      collection: 'server',
+      via: 'users',
+      dominant: true
+    },
+    skin: {
+      model: 'skin'
+    },
+    stats: {
+      collection: 'userstat',
+      via: 'user'
     }
-  },
-
-  // Lifecycle Callbacks
-  afterCreate: function(newlyInsertedRecord, next) {
-    // TODO
-    // Create the row in UserStat collection
-    next();
   }
 };

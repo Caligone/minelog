@@ -42,6 +42,11 @@ module.exports = {
       type: 'boolean',
       defaultTo: true,
       required: false
+    },
+    users: {
+      collection: 'user',
+      via: 'servers',
+      dominant: true
     }
 
   }

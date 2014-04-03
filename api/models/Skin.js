@@ -9,11 +9,10 @@
 module.exports = {
   adapter: 'mongo',
   schema: true,
-  
+
   attributes: {
-    id_user: {
-      type: 'string',
-      required: true
+    user: {
+      model: 'user'
     },
     skin: {
       type: 'string',

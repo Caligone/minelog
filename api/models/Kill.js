@@ -12,17 +12,14 @@ module.exports = {
 
   attributes: {
 
-   id_user_killed : {
-     type: 'string',
-     required: true
+   killed : {
+     model: 'user'
    },
-   id_user_killer : {
-     type: 'string',
-     required: true
+   killer : {
+     model: 'user'
    },
-   id_server : {
-     type: 'string',
-     required: true
+   server : {
+     model: 'server'
    },
    date : {
      type: 'datetime',
