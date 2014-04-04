@@ -21,7 +21,7 @@ module.exports = {
   connect: function(req, res) {
     Server.find({ key: req.query.key }).done(function(err, servers) {
       // "Handle" problems
-      if (err) { return res.send(err, 500) };
+      if (err) { return res.send(err, 500); }
 
       // Server not found
       if(servers.length <= 0) {
@@ -59,7 +59,7 @@ module.exports = {
   heartbeat: function(req, res) {
     Server.find({ key: req.query.key }).done(function(err, servers) {
       // "Handle" problems
-      if (err) { return res.send(err, 500) };
+      if (err) { return res.send(err, 500); }
 
       // Server not found
       if(servers.length <= 0) {
@@ -85,10 +85,12 @@ module.exports = {
   },
 
   // Handle playerConnect
+
+  // TODO Handle invalid pseudo
   playerconnect: function(req, res) {
     Server.find({ key: req.query.key }).done(function(err, servers) {
       // "Handle" problems
-      if (err) { return res.send(err, 500) };
+      if (err) { return res.send(err, 500); }
 
       // Server not found
       if(servers.length <= 0) {
@@ -105,12 +107,22 @@ module.exports = {
           var server = servers[0];
           User.find({ pseudo: req.query.pseudo }).done(function(err, users) {
             // "Handle" problems
-            if (err) { return res.send(err, 500) };
+            if (err) { return res.send(err, 500); }
 
             // User does not exist
             if(users.length <= 0) {
-              User.create({ pseudo: req.query.pseudo, lastLogin: new Date().toISOString(), servers: [server] }).done(function(err, user) {
-                res.json({ status: 0, errorMessage: "User created", server: server });
+              User.create({ pseudo: req.query.pseudo, lastLogin: new Date().toISOString(), servers: [server.id] }).done(function(err, user) {
+                if(err) {
+                  res.json({ status: -1, errorMessage: "User could not be create", server: server });
+                }
+                else {
+                  user.servers.add(server.id);
+                  user.save(function() {
+                    UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
+                      res.json({ status: 0, errorMessage: "User created", server: server });
+                    });
+                  });
+                }
               });
             }
             else {
@@ -118,19 +130,27 @@ module.exports = {
               if(users.length != 1) {
                 res.json({ status: -1, errorMessage: "User unicity trouble" });
               }
+              // Update User
               else {
                 var user = users[0];
                 user.lastLogin = new Date().toISOString();
-                if(!user.servers.contains(server)) {
-                  user.servers.push(server);
-                }
+                user.servers.add(server.id);
                 user.lastLogin = new Date().toISOString();
-                user.save(function(err) {
-                  res.json({ status: 0, errorMessage: "User updated", server: server });
+                // Try to find stats for this user on this server
+                UserStat.find({user: user.id, server: server.id}).exec(function(err, users) {
+                  // User does not have stats of this server
+                  if(users.length === 0) {
+                      UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
+                        res.json({ status: 0, errorMessage: "User updated. First time on this server", server: server });
+                      });
+                  }
+                  else {
+                    res.json({ status: 0, errorMessage: "User updated", server: server });
+                  }
                 });
               }
             }
-          })
+          });
         }
       }
     });
