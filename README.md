@@ -28,11 +28,11 @@ You are good to go!
 ## Plugin API methods
 The followings methods are used by the Bukkit plugin.
 
-* ``` /api/v1/connect?key=:key&name=:name&address=:address&version=:version ``` Create or update the server into the database
-* ``` /api/v1/heartbeat?key=:key ``` Update the lastheartbeat field 
-* ``` /api/v1/playerconnect?key=:key&pseudo=:pseudo ``` *:player* connected (create the user or update lastlogin and return information)
-* ``` /api/v1/playerkilled?key=:key&killer=:killer&killed=:killed&weapon=:weapon ``` *:killer* killed *:killed* with *:weapon* (add kill and inc pvpdeaths and update ratio)
-* ``` /api/v1/updatePlayer?key=:key&player=:player&verbosity=:verbosity&blocksbroken=:blocksbroken&blocksplaced=:blocksbroken&stupidDeads=:stupidDeads&level=:level``` inc the stats of *:player*
+* ``` /api/connect?key=:key&name=:name&address=:address&version=:version ``` Create or update the server into the database
+* ``` /api/heartbeat?key=:key ``` Update the lastheartbeat field 
+* ``` /api/playerconnect?key=:key&pseudo=:pseudo ``` *:player* connected (create the user or update lastlogin and return information)
+* ``` /api/playerkilled?key=:key&killer=:killer&killed=:killed&weapon=:weapon ``` *:killer* killed *:killed* with *:weapon* (add kill and inc pvpdeaths and update ratio)
+* ``` /api/updatePlayer?key=:key&player=:player&verbosity=:verbosity&blocksbroken=:blocksbroken&blocksplaced=:blocksbroken&stupidDeaths=:stupidDeaths&level=:level``` inc the stats of *:player*
 
 ## WebUI
 
