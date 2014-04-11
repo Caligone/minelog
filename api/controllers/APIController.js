@@ -25,13 +25,13 @@ module.exports = {
 
       // Server not found
       if(servers.length <= 0) {
-        res.json({ status: -1, errorMessage: "Server not found" });
+        res.json({ status: -1, message: "Server not found" });
       }
       // Server(s) found
       else {
         // Multiple server found (???)
         if(servers.length != 1) {
-          res.json({ status: -1, errorMessage: "Server unicity trouble" });
+          res.json({ status: -1, message: "Server unicity trouble" });
         }
         else {
           var server = servers[0];
@@ -48,7 +48,7 @@ module.exports = {
           server.lastHeartBeat = new Date().toISOString();
           server.active = true;
           server.save(function(err) {
-            res.json({ status: 0, errorMessage: "Server found", server: server });
+            res.json({ status: 0, message: "Server found", server: server });
           });
         }
       }
@@ -63,13 +63,13 @@ module.exports = {
 
       // Server not found
       if(servers.length <= 0) {
-        res.json({ status: -1, errorMessage: "Server not found" });
+        res.json({ status: -1, message: "Server not found" });
       }
       // Server(s) found
       else {
         // Multiple server found (???)
         if(servers.length != 1) {
-          res.json({ status: -1, errorMessage: "Server unicity trouble" });
+          res.json({ status: -1, message: "Server unicity trouble" });
         }
         // OK, do your stuff
         else {
@@ -77,7 +77,7 @@ module.exports = {
           server.lastHeartBeat = new Date().toISOString();
           server.active = true;
           server.save(function(err) {
-            res.json({ status: 0, errorMessage: "Server found", server: server });
+            res.json({ status: 0, message: "Server found", server: server });
           });
         }
       }
@@ -94,13 +94,13 @@ module.exports = {
 
       // Server not found
       if(servers.length <= 0) {
-        res.json({ status: -1, errorMessage: "Server not found" });
+        res.json({ status: -1, message: "Server not found" });
       }
       // Server(s) found
       else {
         // Multiple servers found (???)
         if(servers.length != 1) {
-          res.json({ status: -1, errorMessage: "Server unicity trouble" });
+          res.json({ status: -1, message: "Server unicity trouble" });
         }
         // OK, do your stuff
         else {
@@ -128,7 +128,7 @@ module.exports = {
             else {
               // Multiple users found (???)
               if(users.length != 1) {
-                res.json({ status: -1, errorMessage: "User unicity trouble" });
+                res.json({ status: -1, message: "User unicity trouble" });
               }
               // Update User
               else {
@@ -150,6 +150,56 @@ module.exports = {
                 });
               }
             }
+          });
+        }
+      }
+    });
+  },
+
+  playerkilled: function(req, res) {
+    Server.find({ key: req.query.key }).done(function(err, servers) {
+      // "Handle" problems
+      if (err) { return res.send(err, 500); }
+
+      // Server not found
+      if(servers.length <= 0) {
+        res.json({ status: -1, message: "Server not found" });
+      }
+      // Server(s) found
+      else {
+        // Multiple server found (???)
+        if(servers.length != 1) {
+          res.json({ status: -1, message: "Server unicity trouble" });
+        }
+        // OK, do your stuff
+        else {
+          var server = servers[0];
+          server.lastHeartBeat = new Date().toISOString();
+          server.active = true;
+          server.save(function(err) {
+            User.find({ pseudo: req.query.killer }).done(function(err, killers) {
+              if(killers.length != 1) {
+                res.json({ status: -1, message: "Player unicity trouble" });
+              }
+              else {
+                killers[0].stats.kills++;
+                killers[0].stats.ratio = killers[0].stats.kills/(killers[0].stats.pvpDeaths === 0 ? 1 : killers[0].stats.pvpDeaths);
+                killers[0].save();
+                User.find({ pseudo: req.query.killed }).done(function(err, killeds) {
+                  if(killeds.length != 1) {
+                    res.json({ status: -1, message: "Player unicity trouble" });
+                  }
+                  else {
+                    killeds[0].stats.pvpDeaths++;
+                    killeds[0].stats.ratio = killeds[0].stats.kills/(killeds[0].stats.pvpDeaths === 0 ? 1 : killeds[0].stats.pvpDeaths);
+                    killeds[0].save();
+                    Kill.create({killed: killeds[0].id, killer: killers[0].id, server: server.id, weapon: req.query.weapon}).done(function(err, kill) {
+                      res.json({ status: 0, message: "Kill added", kill: kill });
+                    });
+                  }
+                });
+              }
+            });
           });
         }
       }

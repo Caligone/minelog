@@ -7,7 +7,7 @@
  */
 
 module.exports = {
-  adapter: 'mongo',
+  adapter: 'production',
   schema: true,
 
   attributes: {

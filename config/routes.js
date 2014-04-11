@@ -30,11 +30,44 @@ module.exports.routes = {
 
   // By default, your root route (aka home page) points to a view
   // located at `views/home/index.ejs`
-  // 
+  //
   // (This would also work if you had a file at: `/views/home.ejs`)
-  '/': {
-    view: 'home/index'
-  }
+  '/': { view: 'index' },
+  '/header': { view: 'header' },
+  '/nav': { view: 'nav' },
+  '/dashboard': { view: 'dashboard' },
+  '/charts/charts': { view: 'charts/charts' },
+  '/charts/flot': { view: 'charts/flot' },
+  '/charts/morris': { view: 'charts/morris' },
+  '/forms/elements': { view: 'forms/elements' },
+  '/forms/layouts': { view: 'forms/layouts' },
+  '/forms/validation': { view: 'forms/validation' },
+  '/forms/wizard': { view: 'forms/wizard' },
+  '/mail/compose': { view: 'mail/compose' },
+  '/mail/inbox': { view: 'mail/inbox' },
+  '/mail/single': { view: 'mail/single' },
+  '/pages/404': { view: 'pages/404' },
+  '/pages/500': { view: 'pages/500' },
+  '/pages/blank': { view: 'pages/blank' },
+  '/pages/features': { view: 'pages/features' },
+  '/pages/invoice': { view: 'pages/invoice' },
+  '/pages/lock-screen': { view: 'pages/lock-screen' },
+  '/pages/profile': { view: 'pages/profile' },
+  '/pages/signin': { view: 'pages/signin' },
+  '/pages/signup': { view: 'pages/signup' },
+  '/tables/dynamic': { view: 'tables/dynamic' },
+  '/tables/responsive': { view: 'tables/responsive' },
+  '/tables/static': { view: 'tables/static' },
+  '/tasks/tasks': { view: 'tasks/tasks' },
+  '/ui/buttons': { view: 'ui/buttons' },
+  '/ui/calendar': { view: 'ui/calendar' },
+  '/ui/components': { view: 'ui/components' },
+  '/ui/grids': { view: 'ui/grids' },
+  '/ui/icons': { view: 'ui/icons' },
+  '/ui/timeline': { view: 'ui/timeline' },
+  '/ui/typography': { view: 'ui/typography' },
+  '/ui/widgets': { view: 'ui/widgets' }
+
 
   /*
   // But what if you want your home page to display
@@ -68,7 +101,7 @@ module.exports.routes = {
   // If you want to set up a route only for one in particular
   // (GET, POST, PUT, DELETE, etc.), just specify the verb before the path.
   // For example, if you have a `UserController` with a `signup` action,
-  // and somewhere else, you're serving a signup form looks like: 
+  // and somewhere else, you're serving a signup form looks like:
   //
   //		<form action="/signup">
   //			<input name="username" type="text"/>
@@ -97,7 +130,7 @@ module.exports.routes = {
 
 
 
-/** 
+/**
  * (3) Action blueprints
  * These routes can be disabled by setting (in `config/controllers.js`):
  * `module.exports.controllers.blueprints.actions = false`
@@ -163,4 +196,3 @@ module.exports.routes = {
  * Finally, if nothing else matched, the default 404 handler is triggered.
  * See `config/404.js` to adjust your app's 404 logic.
  */
- 
