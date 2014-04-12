@@ -1,0 +1,65 @@
+<section class="page-form-ele page">
+
+    <!-- Typeahead -->
+    <section class="panel panel-default">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Recherche d'un serveur</strong></div>
+        <div class="panel-body" data-ng-controller="TypeaheadCtrl">
+            <div class="row">
+                <div class="col-sm-2">
+                    <input type="text"
+                           ng-model="selected"
+                           typeahead="state for state in states | filter:$viewValue | limitTo:8"
+                           class="form-control"
+                           placeholder="Recherche">
+                </div>
+            </div
+            <div class="callout callout-info">
+                <p>Recherche actuelle : {{selected}}</p>
+            </div>
+        </div>
+    </section>
+    <!-- end Typeahead -->
+
+  <table class="table">
+      <thead>
+          <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Status</th>
+              <th>Joueurs</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>1</td>
+              <td>Minecraft Server 1</td>
+              <td><span class="label label-success">Actif</span></td>
+              <td><progressbar class="progressbar no-margin" value="55" type="success">55/100</progressbar></td>
+          </tr>
+          <tr>
+              <td>2</td>
+              <td>Minecraft Server 2</td>
+              <td><span class="label label-success">Actif</span></td>
+              <td><progressbar class="progressbar no-margin" value="80" type="success">40/50</progressbar></td>
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Minecraft Server 3</td>
+              <td><span class="label label-success">Actif</span></td>
+              <td><progressbar class="progressbar no-margin" value="68" type="success">68/100</progressbar></td>
+          </tr>
+          <tr>
+              <td>4</td>
+              <td>Minecraft Server 4</td>
+              <td><span class="label label-success">Actif</span></td>
+              <td><progressbar class="progressbar no-margin" value="52" type="success">52/100</progressbar></td>
+          </tr>
+          <tr>
+              <td>5</td>
+              <td>Minecraft Server 5</td>
+              <td><span class="label label-default">Inactif</span></td>
+              <td><progressbar class="progressbar no-margin" value="0"></td>
+      </tbody>
+  </table>
+
+</section>

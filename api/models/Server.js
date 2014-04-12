@@ -38,6 +38,11 @@ module.exports = {
       defaultsTo: new Date().toISOString(),
       required: false
     },
+    creation: {
+      type: 'datetime',
+      defaultsTo: new Date().toISOString(),
+      required: false
+    },
     active: {
       type: 'boolean',
       defaultsTo: true,
