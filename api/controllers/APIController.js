@@ -148,10 +148,10 @@ module.exports = {
           res.json({ status: 0, errorMessage: "User created", user: user });
         }
         else if(created === 1) {
-          res.json({ status: 0, errorMessage: "User updated. First time on this server", server: server });
+          res.json({ status: 0, errorMessage: "User updated. First time on this server", user: user });
         }
         else {
-          res.json({ status: 0, errorMessage: "User updated", server: server });
+          res.json({ status: 0, errorMessage: "User updated", user: user });
         }
       })
     })
@@ -224,11 +224,28 @@ module.exports = {
             res.json({ status: -1, errorMessage: "User could not be updated", err: err });
           }
           else {
-            res.json({ status: 0, errorMessage: "User updated", server: server });
+            res.json({ status: 0, errorMessage: "User updated", user: user });
           }
         });
       });
     });
+  },
+
+  // Handle getplayer
+  player: function(req, res) {
+    checkServer(req, res, req.query.key, function(req, res, server) {
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user, created) {
+        if(created === 0) {
+          res.json({ status: 0, errorMessage: "User created", user: user });
+        }
+        else if(created === 1) {
+          res.json({ status: 0, errorMessage: "User updated. First time on this server", user: user });
+        }
+        else {
+          res.json({ status: 0, errorMessage: "User updated", user: user });
+        }
+      })
+    })
   },
 
   /**
