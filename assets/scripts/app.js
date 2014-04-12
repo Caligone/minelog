@@ -1575,22 +1575,19 @@ function () {
                 return $scope.taskRemainingCount = count
             })
         }
-    ]).controller("DashboardCtrl", ["$scope",
-        function ($scope) {
-            return $scope.comboChartData = [
-                ["Month", "Bolivia", "Ecuador", "Madagascar", "Papua New Guinea", "Rwanda", "Average"],
-                ["2014/05", 165, 938, 522, 998, 450, 614.6],
-                ["2014/06", 135, 1120, 599, 1268, 288, 682],
-                ["2014/07", 157, 1167, 587, 807, 397, 623],
-                ["2014/08", 139, 1110, 615, 968, 215, 609.4],
-                ["2014/09", 136, 691, 629, 1026, 366, 569.6]
-            ], $scope.salesData = [
-                ["Year", "Sales", "Expenses"],
-                ["2010", 1e3, 400],
-                ["2011", 1170, 460],
-                ["2012", 660, 1120],
-                ["2013", 1030, 540]
-            ]
-        }
+    ]).controller("DashboardCtrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
+         var socket = io.connect('http://localhost');
+          socket.on('news', function (data) {
+            console.log(data);
+            socket.emit('my other event', { my: 'data' });
+          });
+        var query = function() {
+            $http.get("/ajax/dashboardData").success(function(counters) {
+              $scope.counters = counters;
+            });
+        };
+        $interval(query, 10000);
+        query();
+      }
     ])
 }.call(this);

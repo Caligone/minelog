@@ -59,7 +59,8 @@ var checkPlayer = function(req, res, pseudo, server, callback) {
           user.servers.add(server.id);
           user.save(function() {
             UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
-                checkPlayer(req, res, pseudo, server, callback);
+              User.publishCreate(user);
+              checkPlayer(req, res, pseudo, server, callback);
             });
           });
         }

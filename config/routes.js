@@ -41,7 +41,8 @@ module.exports.routes = {
   '/servers': { view: 'servers' },
   '/players': { view: 'players' },
   '/pages/404': { view: 'pages/404' },
-  '/pages/500': { view: 'pages/500' }
+  '/pages/500': { view: 'pages/500' },
+  '/ajax/dashboardData' : { controller: 'dashboard', action: 'getData'}
 
 
   /*
