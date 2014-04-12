@@ -15,194 +15,219 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+// TOOLS
+
+// Check the server from the key field
+var checkServer = function(req, res, key, callback) {
+  Server.find({ key: key }).done(function(err, servers) {
+    // Handle errors
+    if (err) { return res.send(err, 500); }
+
+    // Server not found
+    if(servers.length == 0) {
+      res.json({ status: -1, message: "Server not found" });
+    }
+    // Server unicity trouble
+    else if(servers.length > 1) {
+        res.json({ status: -1, message: "Server unicity trouble" });
+    }
+    // Server(s) found
+    else {
+      var server = servers[0];
+      server.lastHeartBeat = new Date().toISOString();
+      server.active = true;
+      server.save(function(err) {
+        callback(req, res, server);
+      });
+    }
+  });
+};
+
+// Check the player from the pseudo field
+var checkPlayer = function(req, res, pseudo, server, callback) {
+  User.find({ pseudo: pseudo }).populate('servers').populate('stats').done(function(err, users) {
+    // "Handle" problems
+    if (err) { return res.send(err, 500); }
+
+    // User does not exist and need to be create
+    if(users.length <= 0) {
+      User.create({ pseudo: pseudo }).done(function(err, user) {
+        if(err) {
+          res.json({ status: -1, errorMessage: "User could not be create", err: err });
+        }
+        else {
+          user.servers.add(server.id);
+          user.save(function() {
+            UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
+                checkPlayer(req, res, pseudo, server, callback);
+            });
+          });
+        }
+      });
+    }
+    else {
+      // Multiple users found (???)
+      if(users.length != 1) {
+        res.json({ status: -1, message: "User unicity trouble" });
+      }
+      // Update User
+      else {
+        var user = users[0];
+
+        // Check if the player already played on this server (user have server)
+        var insertServer = true;
+        for (var i = user.servers.length - 1; i >= 0 && insertServer ; i--) {
+          if(user.servers[i].id === server.id) {
+            insertServer = false;
+          }
+        };
+        if(insertServer) {
+          user.servers.add(server.id);
+        }
+        user.lastLogin = new Date().toISOString();
+        user.save(function(err)
+        {
+          if(err) {
+            res.json({ status: -1, errorMessage: "User could not be updated", err: err });
+          }
+          else {
+            // Create UserStats if necessary
+            if(insertServer) {
+              UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
+                callback(req, res, user, 1);
+              });
+            }
+            else {
+                callback(req, res, user, 2);
+            }
+          }
+        });
+      }
+    }
+  });
+};
+
 module.exports = {
 
   // Handle a plugin connection
   connect: function(req, res) {
-    Server.find({ key: req.query.key }).done(function(err, servers) {
-      // "Handle" problems
-      if (err) { return res.send(err, 500); }
-
-      // Server not found
-      if(servers.length <= 0) {
-        res.json({ status: -1, message: "Server not found" });
-      }
-      // Server(s) found
-      else {
-        // Multiple server found (???)
-        if(servers.length != 1) {
-          res.json({ status: -1, message: "Server unicity trouble" });
+    checkServer(req, res, req.query.key, function(req, res, server) {
+        // Update server information
+        if(req.query.name) {
+          server.name = req.query.name;
         }
-        else {
-          var server = servers[0];
-          // Update server information
-          if(req.query.name) {
-            server.name = req.query.name;
+        if(req.query.address) {
+          server.address = req.query.address;
+        }
+        if(req.query.version) {
+          server.version = req.query.version;
+        }
+        server.save(function(err) {
+          if(err) {
+            res.json({ status: -1, errorMessage: "Server could not be updated", err: err });
           }
-          if(req.query.address) {
-            server.address = req.query.address;
-          }
-          if(req.query.version) {
-            server.version = req.query.version;
-          }
-          server.lastHeartBeat = new Date().toISOString();
-          server.active = true;
-          server.save(function(err) {
+          else {
             res.json({ status: 0, message: "Server found", server: server });
-          });
-        }
-      }
-    });
+          }
+        })
+      });
   },
 
   // Handle Heartbeat
   heartbeat: function(req, res) {
-    Server.find({ key: req.query.key }).done(function(err, servers) {
-      // "Handle" problems
-      if (err) { return res.send(err, 500); }
-
-      // Server not found
-      if(servers.length <= 0) {
-        res.json({ status: -1, message: "Server not found" });
-      }
-      // Server(s) found
-      else {
-        // Multiple server found (???)
-        if(servers.length != 1) {
-          res.json({ status: -1, message: "Server unicity trouble" });
-        }
-        // OK, do your stuff
-        else {
-          var server = servers[0];
-          server.lastHeartBeat = new Date().toISOString();
-          server.active = true;
-          server.save(function(err) {
-            res.json({ status: 0, message: "Server found", server: server });
-          });
-        }
-      }
-    });
+    checkServer(req, res, req.query.key, function(req, res, server){
+        res.json({ status: 0, message: "Server heartbeat updated", server: server });
+    })
   },
 
   // Handle playerConnect
-
-  // TODO Handle invalid pseudo
   playerconnect: function(req, res) {
-    Server.find({ key: req.query.key }).done(function(err, servers) {
-      // "Handle" problems
-      if (err) { return res.send(err, 500); }
-
-      // Server not found
-      if(servers.length <= 0) {
-        res.json({ status: -1, message: "Server not found" });
-      }
-      // Server(s) found
-      else {
-        // Multiple servers found (???)
-        if(servers.length != 1) {
-          res.json({ status: -1, message: "Server unicity trouble" });
+    checkServer(req, res, req.query.key, function(req, res, server) {
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user, created) {
+        if(created === 0) {
+          res.json({ status: 0, errorMessage: "User created", user: user });
         }
-        // OK, do your stuff
+        else if(created === 1) {
+          res.json({ status: 0, errorMessage: "User updated. First time on this server", server: server });
+        }
         else {
-          var server = servers[0];
-          User.find({ pseudo: req.query.pseudo }).done(function(err, users) {
-            // "Handle" problems
-            if (err) { return res.send(err, 500); }
-
-            // User does not exist
-            if(users.length <= 0) {
-              User.create({ pseudo: req.query.pseudo, lastLogin: new Date().toISOString(), servers: [server.id] }).done(function(err, user) {
-                if(err) {
-                  res.json({ status: -1, errorMessage: "User could not be create", server: server });
-                }
-                else {
-                  user.servers.add(server.id);
-                  user.save(function() {
-                    UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
-                      res.json({ status: 0, errorMessage: "User created", server: server });
-                    });
-                  });
-                }
-              });
-            }
-            else {
-              // Multiple users found (???)
-              if(users.length != 1) {
-                res.json({ status: -1, message: "User unicity trouble" });
-              }
-              // Update User
-              else {
-                var user = users[0];
-                user.lastLogin = new Date().toISOString();
-                user.servers.add(server.id);
-                user.lastLogin = new Date().toISOString();
-                // Try to find stats for this user on this server
-                UserStat.find({user: user.id, server: server.id}).exec(function(err, users) {
-                  // User does not have stats of this server
-                  if(users.length === 0) {
-                      UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
-                        res.json({ status: 0, errorMessage: "User updated. First time on this server", server: server });
-                      });
-                  }
-                  else {
-                    res.json({ status: 0, errorMessage: "User updated", server: server });
-                  }
-                });
-              }
-            }
-          });
+          res.json({ status: 0, errorMessage: "User updated", server: server });
         }
-      }
-    });
+      })
+    })
   },
 
   playerkilled: function(req, res) {
-    Server.find({ key: req.query.key }).done(function(err, servers) {
-      // "Handle" problems
-      if (err) { return res.send(err, 500); }
+    checkServer(req, res, req.query.key, function(req, res, server) {
+      checkPlayer(req, res, req.query.killer, server, function(req, res, killer, created) {
+        checkPlayer(req, res, req.query.killed, server, function(req, res, killed, created) {
 
-      // Server not found
-      if(servers.length <= 0) {
-        res.json({ status: -1, message: "Server not found" });
-      }
-      // Server(s) found
-      else {
-        // Multiple server found (???)
-        if(servers.length != 1) {
-          res.json({ status: -1, message: "Server unicity trouble" });
-        }
-        // OK, do your stuff
-        else {
-          var server = servers[0];
-          server.lastHeartBeat = new Date().toISOString();
-          server.active = true;
-          server.save(function(err) {
-            User.find({ pseudo: req.query.killer }).done(function(err, killers) {
-              if(killers.length != 1) {
-                res.json({ status: -1, message: "Player unicity trouble" });
-              }
-              else {
-                killers[0].stats.kills++;
-                killers[0].stats.ratio = killers[0].stats.kills/(killers[0].stats.pvpDeaths === 0 ? 1 : killers[0].stats.pvpDeaths);
-                killers[0].save();
-                User.find({ pseudo: req.query.killed }).done(function(err, killeds) {
-                  if(killeds.length != 1) {
-                    res.json({ status: -1, message: "Player unicity trouble" });
-                  }
-                  else {
-                    killeds[0].stats.pvpDeaths++;
-                    killeds[0].stats.ratio = killeds[0].stats.kills/(killeds[0].stats.pvpDeaths === 0 ? 1 : killeds[0].stats.pvpDeaths);
-                    killeds[0].save();
-                    Kill.create({killed: killeds[0].id, killer: killers[0].id, server: server.id, weapon: req.query.weapon}).done(function(err, kill) {
-                      res.json({ status: 0, message: "Kill added", kill: kill });
-                    });
-                  }
-                });
-              }
-            });
+          Kill.create({killed: killed.id, killer: killer.id, server: server.id, weapon: req.query.weapon}).done(function(err, kill) {
+            if(err) {
+              res.json({ status: -1, errorMessage: "Kill could not be created", err: err });
+            }
+            else {
+              var stats = null;
+              for (var i = killer.stats.length - 1; i >= 0; i--) {
+                if(killer.stats[i].server === server.id) {
+                  stats = killer.stats[i];
+                }
+              };
+              stats.kills++;
+              stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : pvpDeaths);
+              stats.save();
+
+              stats = null;
+              for (var i = killed.stats.length - 1; i >= 0; i--) {
+                if(killed.stats[i].server === server.id) {
+                  stats = killed.stats[i];
+                }
+              };
+              stats.pvpDeaths++;
+              stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : stats.pvpDeaths);
+              stats.save();
+              res.json({ status: 0, message: "Kill added", kill: kill });
+            }
           });
+        });
+      });
+    });
+  },
+
+  updatePlayer: function(req, res) {
+    checkServer(req, res, req.query.key, function(req, res, server) {
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user, created) {
+        var stats = null;
+        for (var i = user.stats.length - 1; i >= 0; i--) {
+          if(user.stats[i].server === server.id) {
+            stats = user.stats[i];
+          }
+        };
+        if(req.query.verbosity) {
+          stats.verbosity += Number(req.query.verbosity);
         }
-      }
+        if(req.query.blocksBroken) {
+          stats.blocksBroken += Number(req.query.blocksBroken);
+        }
+        if(req.query.blocksPlaced) {
+          stats.blocksPlaced += Number(req.query.blocksPlaced);
+        }
+        if(req.query.stupidDeaths) {
+          stats.stupidDeaths += Number(req.query.stupidDeaths);
+        }
+        if(req.query.level && stats.level < req.query.level) {
+          stats.level = Number(req.query.level);
+        }
+
+        stats.save(function(err) {
+          if(err) {
+            res.json({ status: -1, errorMessage: "User could not be updated", err: err });
+          }
+          else {
+            res.json({ status: 0, errorMessage: "User updated", server: server });
+          }
+        });
+      });
     });
   },
 

@@ -10,6 +10,7 @@ module.exports = {
   adapter: 'production',
   schema: true,
   autoUpdatedAt: false,
+  autoCreatedAt: false,
 
   attributes: {
 
