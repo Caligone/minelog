@@ -32,6 +32,7 @@ The followings methods are used by the Bukkit plugin :
 * ``` /api/connect?key=:key&name=:name&address=:address&version=:version ``` Create or update the server into the database
 * ``` /api/heartbeat?key=:key ``` Update the lastheartbeat field
 * ``` /api/playerconnect?key=:key&pseudo=:pseudo ``` *:player* connected (create the user or update lastlogin and return information)
+* ``` /api/playerdisconnect?key=:key&pseudo=:pseudo ``` *:player* disconnected (create the user or update lastlogin and return information)
 * ``` /api/playerkilled?key=:key&killer=:killer&killed=:killed&weapon=:weapon ``` *:killer* killed *:killed* with *:weapon* (add kill and inc pvpdeaths and update ratio)
 * ``` /api/updatePlayer?key=:key&pseudo=:pseudo&verbosity=:verbosity&blocksBroken=:blocksBroken&blocksPlaced=:blocksPlaced&stupidDeaths=:stupidDeaths&level=:level``` inc the stats of *:player*
 * ``` /api/player?key=:key&pseudo=pseudo ``` Get information of a player
