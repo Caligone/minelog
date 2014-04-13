@@ -49,6 +49,10 @@ module.exports = {
       defaultsTo: true,
       required: false
     },
+    online: {
+      type: 'boolean',
+      defaultsTo: true,
+    },
     users: {
       collection: 'user',
       via: 'servers',

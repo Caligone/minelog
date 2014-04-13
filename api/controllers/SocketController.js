@@ -17,22 +17,27 @@
 
 module.exports = {
 
-  // Handle a plugin connection
-  getData: function(req, res) {
-    User.count().exec(function(err, userscount) {
-      Server.count().exec(function(err, serverscount) {
-        Kill.count().exec(function(err, killscount) {
-          UserStat.find().sum('blocksBroken').done(function(err, blockscount) {
-            if(!err && blockscount.length > 0) {
-              res.json({ status: -1, users: userscount, servers: serverscount, kills: killscount, blocks: blockscount[0].blocksBroken});
-            }
-            else {
-              res.json({ status: -1, users: userscount, servers: serverscount, kills: killscount, blocks: 0});
-            }
-          });
-        });
-      });
-    });
+  join: function(req, res) {
+    console.log("YEAH");
+    var roomName = req.param('roomName');
+    if(roomName !== undefined) {
+      sails.sockets.join(req.socket, roomName);
+      res.json({ status: 0, message: sails.sockets.id(req.socket)+' subscribed to the '+roomName+'' });
+    }
+    else {
+      res.json({ status: -1, message: sails.sockets.id(req.socket)+' could not subscribe to the '+roomName+'' });
+    }
+  },
+
+  leave: function(req, res) {
+    var roomName = req.param('roomName');
+    if(roomName !== undefined) {
+      sails.sockets.leave(req.socket, roomName);
+      res.json({ status: 0, message: sails.sockets.id(req.socket)+' subscribed to the '+roomName+'' });
+    }
+    else {
+      res.json({ status: -1, message: sails.sockets.id(req.socket)+' could not subscribe to the '+roomName+'' });
+    }
   },
 
   /**

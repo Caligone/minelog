@@ -59,7 +59,6 @@ var checkPlayer = function(req, res, pseudo, server, callback) {
           user.servers.add(server.id);
           user.save(function() {
             UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
-              User.publishCreate(user);
               checkPlayer(req, res, pseudo, server, callback);
             });
           });
@@ -95,11 +94,11 @@ var checkPlayer = function(req, res, pseudo, server, callback) {
             // Create UserStats if necessary
             if(insertServer) {
               UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
-                callback(req, res, user, 1);
+                callback(req, res, user);
               });
             }
             else {
-                callback(req, res, user, 2);
+                callback(req, res, user);
             }
           }
         });
@@ -144,24 +143,41 @@ module.exports = {
   // Handle playerConnect
   playerconnect: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user, created) {
-        if(created === 0) {
-          res.json({ status: 0, errorMessage: "User created", user: user });
-        }
-        else if(created === 1) {
-          res.json({ status: 0, errorMessage: "User updated. First time on this server", user: user });
-        }
-        else {
-          res.json({ status: 0, errorMessage: "User updated", user: user });
-        }
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
+        user.online = true;
+        user.save(function(err) { // NOT WORKING
+          if(err) {
+            res.json({ status: -1, errorMessage: "User could not be updated", err: err });
+          }
+          else {
+            res.json({ status: 0, errorMessage: "User updated", user: user });
+          }
+        })
+      })
+    })
+  },
+
+  // Handle playerDisconnect
+  playerdisconnect: function(req, res) {
+    checkServer(req, res, req.query.key, function(req, res, server) {
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
+        user.online = false;
+        user.save(function(err) { // NOT WORKING
+          if(err) {
+            res.json({ status: -1, errorMessage: "User could not be updated", err: err });
+          }
+          else {
+            res.json({ status: 0, errorMessage: "User updated", user: user });
+          }
+        })
       })
     })
   },
 
   playerkilled: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.killer, server, function(req, res, killer, created) {
-        checkPlayer(req, res, req.query.killed, server, function(req, res, killed, created) {
+      checkPlayer(req, res, req.query.killer, server, function(req, res, killer) {
+        checkPlayer(req, res, req.query.killed, server, function(req, res, killed) {
 
           Kill.create({killed: killed.id, killer: killer.id, server: server.id, weapon: req.query.weapon}).done(function(err, kill) {
             if(err) {
@@ -197,7 +213,7 @@ module.exports = {
 
   updatePlayer: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user, created) {
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
         var stats = null;
         for (var i = user.stats.length - 1; i >= 0; i--) {
           if(user.stats[i].server === server.id) {
@@ -235,16 +251,8 @@ module.exports = {
   // Handle getplayer
   player: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user, created) {
-        if(created === 0) {
-          res.json({ status: 0, errorMessage: "User created", user: user });
-        }
-        else if(created === 1) {
-          res.json({ status: 0, errorMessage: "User updated. First time on this server", user: user });
-        }
-        else {
-          res.json({ status: 0, errorMessage: "User updated", user: user });
-        }
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
+        res.json({ status: 0, errorMessage: "User updated", user: user });
       })
     })
   },

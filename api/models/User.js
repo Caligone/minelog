@@ -29,6 +29,10 @@ module.exports = {
       in: ['ADMIN', 'PLAYER'],
       defaultsTo: 'PLAYER'
     },
+    online: {
+      type: 'boolean',
+      defaultsTo: true,
+    },
     servers: {
       collection: 'server',
       via: 'users',

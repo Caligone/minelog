@@ -1576,18 +1576,16 @@ function () {
             })
         }
     ]).controller("DashboardCtrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
-         var socket = io.connect('http://localhost');
-          socket.on('news', function (data) {
-            console.log(data);
-            socket.emit('my other event', { my: 'data' });
-          });
         var query = function() {
             $http.get("/ajax/dashboardData").success(function(counters) {
               $scope.counters = counters;
             });
         };
-        $interval(query, 10000);
+        var promise = $interval(query, 10000);
         query();
+        $scope.$on("$destroy", function(){
+            $interval.cancel(promise);
+        });
       }
     ])
 }.call(this);
