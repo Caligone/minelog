@@ -1576,15 +1576,31 @@ function () {
             })
         }
     ]).controller("DashboardCtrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
-        var query = function() {
-            $http.get("/ajax/dashboardData").success(function(counters) {
+        var queryGlobalData = function() {
+            $http.get("/ajax/dashboardGlobalData").success(function(counters) {
               $scope.counters = counters;
             });
         };
-        var promise = $interval(query, 10000);
-        query();
+        var queryServersData = function() {
+            $http.get("/ajax/dashboardServersData").success(function(data) {
+              $scope.servers = data.servers;
+            });
+        };
+        var queryUsersData = function() {
+            $http.get("/ajax/dashboardUsersData").success(function(data) {
+              $scope.users = data.users;
+            });
+        };
+        var promiseGlobalData = $interval(queryGlobalData, 20000);
+        var promiseServersData = $interval(queryGlobalData, 30000);
+        var promiseUsersData = $interval(queryGlobalData, 30000);
+        queryGlobalData();
+        queryServersData();
+        queryUsersData();
         $scope.$on("$destroy", function(){
-            $interval.cancel(promise);
+            $interval.cancel(promiseGlobalData);
+            $interval.cancel(promiseServersData);
+            $interval.cancel(promiseUsersData);
         });
       }
     ])

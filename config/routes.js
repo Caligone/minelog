@@ -42,7 +42,9 @@ module.exports.routes = {
   '/players': { view: 'players' },
   '/pages/404': { view: 'pages/404' },
   '/pages/500': { view: 'pages/500' },
-  '/ajax/dashboardData' : { controller: 'dashboard', action: 'getData'}
+  '/ajax/dashboardGlobalData' : { controller: 'dashboard', action: 'getGlobalData'},
+  '/ajax/dashboardServersData' : { controller: 'dashboard', action: 'getServersData'},
+  '/ajax/dashboardUsersData' : { controller: 'dashboard', action: 'getUsersData'}
 
 
   /*

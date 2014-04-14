@@ -17,8 +17,7 @@
 
 module.exports = {
 
-  // Handle a plugin connection
-  getData: function(req, res) {
+  getGlobalData: function(req, res) {
     User.count().exec(function(err, userscount) {
       Server.count().exec(function(err, serverscount) {
         Kill.count().exec(function(err, killscount) {
@@ -32,6 +31,18 @@ module.exports = {
           });
         });
       });
+    });
+  },
+
+  getServersData: function(req, res) {
+    Server.find().limit(5).done(function(err, servers) {
+      res.json({ status: 0, servers: servers });
+    });
+  },
+
+  getUsersData: function(req, res) {
+    User.find().limit(5).done(function(err, users) {
+      res.json({ status: 0, users: users });
     });
   },
 

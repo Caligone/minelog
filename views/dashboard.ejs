@@ -61,54 +61,32 @@
     </div>
     <!-- end pitch -->
 
-    <div class="col-md-8">
+    <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Top Serveurs"></span></strong></div>
         <table class="table">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Nom</th>
                     <th>Status</th>
                     <th>Joueurs</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Minecraft Server 1</td>
-                    <td><span class="label label-success">Actif</span></td>
-                    <td><progressbar class="progressbar no-margin" value="55" type="success">55/100</progressbar></td>
+                <tbody>
+                <tr ng-repeat="server in servers">
+                    <td><span>{{server.name}}</span></td>
+                    <td ng-if="server.online"><span class="label label-success">En ligne</span></td>
+                    <td ng-if="!server.online"><span class="label label-danger">Hors ligne</span></td>
+                    <td><em>N/A (yet)<em></td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Minecraft Server 2</td>
-                    <td><span class="label label-success">Actif</span></td>
-                    <td><progressbar class="progressbar no-margin" value="80" type="success">40/50</progressbar></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Minecraft Server 3</td>
-                    <td><span class="label label-success">Actif</span></td>
-                    <td><progressbar class="progressbar no-margin" value="68" type="success">68/100</progressbar></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Minecraft Server 4</td>
-                    <td><span class="label label-success">Actif</span></td>
-                    <td><progressbar class="progressbar no-margin" value="52" type="success">52/100</progressbar></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Minecraft Server 5</td>
-                    <td><span class="label label-default">Inactif</span></td>
-                    <td><progressbar class="progressbar no-margin" value="0"></td>
+            </tbody>
             </tbody>
         </table>
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Top Joueurs"></span></strong></div>
         <table class="table">
@@ -116,34 +94,17 @@
                 <tr>
                     <th>#</th>
                     <th>Pseudo</th>
+                    <th>Ratio</th>
                     <th>Score</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td></span> Joueur 1</td>
-                    <td>21956 <i class="fa fa-trophy"></i></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td></span> Joueur 2</td>
-                    <td>18732 <i class="fa fa-trophy"></i></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td></span> Joueur 3</td>
-                    <td>17991 <i class="fa fa-trophy"></i></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td></span> Joueur 4</td>
-                    <td>15212 <i class="fa fa-trophy"></i></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td></span> Joueur 5</td>
-                    <td>12309 <i class="fa fa-trophy"></i></td>
+                <tr ng-repeat="user in users">
+                    <td><span>{{user.pseudo}}</span></td>
+                    <td ng-if="user.online"><span class="label label-success">En ligne</span></td>
+                    <td ng-if="!user.online"><span class="label label-danger">Hors ligne</span></td>
+                    <td><em>N/A (yet)<em></td>
+                    <td><em>N/A (yet)<em></td>
                 </tr>
             </tbody>
         </table>
