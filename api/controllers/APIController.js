@@ -37,6 +37,7 @@ var checkServer = function(req, res, key, callback) {
       var server = servers[0];
       server.lastHeartBeat = new Date().toISOString();
       server.active = true;
+      server.online = true;
       server.save(function(err) {
         callback(req, res, server);
       });
@@ -127,6 +128,7 @@ module.exports = {
           server.size = req.query.size;
         }
         server.online = true;
+        server.onlinePlayers = 0;
         server.save(function(err) {
           if(err) {
             res.json({ status: -1, errorMessage: "Server could not be updated", err: err, apiversion: APIVersion });
@@ -142,6 +144,7 @@ module.exports = {
   disconnect: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
       server.online = false;
+      server.onlinePlayers = 0;
       server.save(function(err) {
         if(err) {
           res.json({ status: -1, errorMessage: "Server could not be updated", err: err });
