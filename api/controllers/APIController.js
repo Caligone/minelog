@@ -19,7 +19,7 @@
 
 // Check the server from the key field
 var checkServer = function(req, res, key, callback) {
-  Server.find({ key: key }).done(function(err, servers) {
+  Server.find({ key: key }).exec(function(err, servers) {
     // Handle errors
     if (err) { return res.send(err, 500); }
 
@@ -45,20 +45,20 @@ var checkServer = function(req, res, key, callback) {
 
 // Check the player from the pseudo field
 var checkPlayer = function(req, res, pseudo, server, callback) {
-  User.find({ pseudo: pseudo }).populate('servers').populate('stats').done(function(err, users) {
+  User.find({ pseudo: pseudo }).populate('servers').populate('stats').exec(function(err, users) {
     // "Handle" problems
     if (err) { return res.send(err, 500); }
 
     // User does not exist and need to be create
     if(users.length <= 0) {
-      User.create({ pseudo: pseudo }).done(function(err, user) {
+      User.create({ pseudo: pseudo }).exec(function(err, user) {
         if(err) {
           res.json({ status: -1, errorMessage: "User could not be create", err: err });
         }
         else {
           user.servers.add(server.id);
           user.save(function() {
-            UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
+            UserStat.create({user: user.id, server: server.id}).exec(function(err, stat) {
               checkPlayer(req, res, pseudo, server, callback);
             });
           });
@@ -93,7 +93,7 @@ var checkPlayer = function(req, res, pseudo, server, callback) {
           else {
             // Create UserStats if necessary
             if(insertServer) {
-              UserStat.create({user: user.id, server: server.id}).done(function(err, stat) {
+              UserStat.create({user: user.id, server: server.id}).exec(function(err, stat) {
                 callback(req, res, user);
               });
             }
@@ -122,6 +122,9 @@ module.exports = {
         if(req.query.version) {
           server.version = req.query.version;
         }
+        if(req.query.size) {
+          server.size = req.query.size;
+        }
         server.save(function(err) {
           if(err) {
             res.json({ status: -1, errorMessage: "Server could not be updated", err: err });
@@ -143,15 +146,18 @@ module.exports = {
   // Handle playerConnect
   playerconnect: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
-        user.online = true;
-        user.save(function(err) { // NOT WORKING
-          if(err) {
-            res.json({ status: -1, errorMessage: "User could not be updated", err: err });
-          }
-          else {
-            res.json({ status: 0, errorMessage: "User updated", user: user });
-          }
+      server.onlinePlayers = (++server.onlinePlayers > server.size ? server.size : server.onlinePlayers);
+      server.save(function(err) {
+        checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
+          user.online = true;
+          user.save(function(err) { // NOT WORKING
+            if(err) {
+              res.json({ status: -1, errorMessage: "User could not be updated", err: err });
+            }
+            else {
+              res.json({ status: 0, errorMessage: "User updated", user: user });
+            }
+          })
         })
       })
     })
@@ -160,15 +166,18 @@ module.exports = {
   // Handle playerDisconnect
   playerdisconnect: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
-        user.online = false;
-        user.save(function(err) { // NOT WORKING
-          if(err) {
-            res.json({ status: -1, errorMessage: "User could not be updated", err: err });
-          }
-          else {
-            res.json({ status: 0, errorMessage: "User updated", user: user });
-          }
+      server.onlinePlayers = (--server.onlinePlayers < 0 ? 0 : server.onlinePlayers);
+      server.save(function(err) {
+        checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
+          user.online = false;
+          user.save(function(err) { // NOT WORKING
+            if(err) {
+              res.json({ status: -1, errorMessage: "User could not be updated", err: err });
+            }
+            else {
+              res.json({ status: 0, errorMessage: "User updated", user: user });
+            }
+          })
         })
       })
     })
@@ -178,8 +187,7 @@ module.exports = {
     checkServer(req, res, req.query.key, function(req, res, server) {
       checkPlayer(req, res, req.query.killer, server, function(req, res, killer) {
         checkPlayer(req, res, req.query.killed, server, function(req, res, killed) {
-
-          Kill.create({killed: killed.id, killer: killer.id, server: server.id, weapon: req.query.weapon}).done(function(err, kill) {
+          Kill.create({killed: killed.id, killer: killer.id, server: server.id, weapon: req.query.weapon}).exec(function(err, kill) {
             if(err) {
               res.json({ status: -1, errorMessage: "Kill could not be created", err: err });
             }

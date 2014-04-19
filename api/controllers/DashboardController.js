@@ -21,7 +21,7 @@ module.exports = {
     User.count().exec(function(err, userscount) {
       Server.count().exec(function(err, serverscount) {
         Kill.count().exec(function(err, killscount) {
-          UserStat.find().sum('blocksBroken').done(function(err, blockscount) {
+          UserStat.find().sum('blocksBroken').exec(function(err, blockscount) {
             if(!err && blockscount.length > 0) {
               res.json({ status: -1, users: userscount, servers: serverscount, kills: killscount, blocks: blockscount[0].blocksBroken});
             }
@@ -35,13 +35,13 @@ module.exports = {
   },
 
   getServersData: function(req, res) {
-    Server.find().limit(5).done(function(err, servers) {
+    Server.find().limit(5).exec(function(err, servers) {
       res.json({ status: 0, servers: servers });
     });
   },
 
   getUsersData: function(req, res) {
-    User.find().limit(5).done(function(err, users) {
+    User.find().limit(5).exec(function(err, users) {
       res.json({ status: 0, users: users });
     });
   },

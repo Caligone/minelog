@@ -28,6 +28,14 @@ module.exports = {
       type: 'string',
       required: true
     },
+    size: {
+      type: 'integer',
+      required: true
+    },
+    onlinePlayers: {
+      type: 'integer',
+      defaultsTo: 0
+    },
     key: {
       type: 'string',
       required: false,
