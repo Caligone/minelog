@@ -35,7 +35,7 @@ module.exports = {
   },
 
   getServersData: function(req, res) {
-    Server.find().limit(5).exec(function(err, servers) {
+    Server.find().sort({onlinePlayers: 'desc'}).limit(5).exec(function(err, servers) {
       res.json({ status: 0, servers: servers });
     });
   },
