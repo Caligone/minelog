@@ -29,7 +29,8 @@ You are good to go!
 
 The followings methods are used by the Bukkit plugin :
 
-* ``` /api/connect?key=:key&name=:name&address=:address&version=:version&size=:size ``` Create or update the server into the database
+* ``` /api/connect?key=:key&name=:name&address=:address&version=:version&size=:size ``` Update the server into the database
+* ``` /api/disconnect?key=:key ``` Update the server into the database
 * ``` /api/heartbeat?key=:key ``` Update the lastheartbeat field
 * ``` /api/playerconnect?key=:key&pseudo=:pseudo ``` *:player* connected (create the user or update lastlogin and return information)
 * ``` /api/playerdisconnect?key=:key&pseudo=:pseudo ``` *:player* disconnected (create the user or update lastlogin and return information)

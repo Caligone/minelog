@@ -16,6 +16,7 @@
  */
 
 // TOOLS
+var APIVersion = '0.1';
 
 // Check the server from the key field
 var checkServer = function(req, res, key, callback) {
@@ -125,15 +126,31 @@ module.exports = {
         if(req.query.size) {
           server.size = req.query.size;
         }
+        server.online = true;
         server.save(function(err) {
           if(err) {
-            res.json({ status: -1, errorMessage: "Server could not be updated", err: err });
+            res.json({ status: -1, errorMessage: "Server could not be updated", err: err, apiversion: APIVersion });
           }
           else {
-            res.json({ status: 0, message: "Server found", server: server });
+            res.json({ status: 0, message: "Server found", server: server, apiversion: APIVersion });
           }
         })
       });
+  },
+
+  // Handle a plugin disconnection
+  disconnect: function(req, res) {
+    checkServer(req, res, req.query.key, function(req, res, server) {
+      server.online = false;
+      server.save(function(err) {
+        if(err) {
+          res.json({ status: -1, errorMessage: "Server could not be updated", err: err });
+        }
+        else {
+          res.json({ status: 0, message: "Server found", server: server });
+        }
+      })
+    });
   },
 
   // Handle Heartbeat
