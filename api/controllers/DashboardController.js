@@ -41,7 +41,21 @@ module.exports = {
   },
 
   getUsersData: function(req, res) {
-    User.find().limit(5).exec(function(err, users) {
+    User.find().limit(5).populate('stats').exec(function(err, users) {
+      for(user in users) {
+        var avgRatio = 0, nbRatio = 0;
+        for(stat in users[user].stats) {
+          if(!isNaN(parseInt(users[user].stats[stat].ratio))) {
+            avgRatio += users[user].stats[stat].ratio;
+            nbRatio++;
+          }
+        }
+        avgRatio /= nbRatio;
+        avgRatio = avgRatio.toFixed(2);
+        users[user].avgRatio = avgRatio;
+        console.log(users[user].avgRatio);
+      }
+        console.log(users);
       res.json({ status: 0, users: users });
     });
   },

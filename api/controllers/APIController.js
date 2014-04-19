@@ -199,7 +199,7 @@ module.exports = {
                 }
               };
               stats.kills++;
-              stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : pvpDeaths);
+              stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : stats.pvpDeaths);
               stats.save();
 
               stats = null;

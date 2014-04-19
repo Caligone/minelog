@@ -78,7 +78,7 @@
                     <td><span>{{server.name}}</span></td>
                     <td ng-if="server.online"><span class="label label-success">En ligne</span></td>
                     <td ng-if="!server.online"><span class="label label-danger">Hors ligne</span></td>
-                    <td><em>N/A (yet)<em></td>
+                    <td><em>{{server.onlinePlayers}}/{{server.size}}<em></td>
                 </tr>
             </tbody>
             </tbody>
@@ -103,7 +103,7 @@
                     <td><span>{{user.pseudo}}</span></td>
                     <td ng-if="user.online"><span class="label label-success">En ligne</span></td>
                     <td ng-if="!user.online"><span class="label label-danger">Hors ligne</span></td>
-                    <td><em>N/A (yet)<em></td>
+                    <td><em>{{user.avgRatio}}<em></td>
                     <td><em>N/A (yet)<em></td>
                 </tr>
             </tbody>
