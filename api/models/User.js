@@ -7,7 +7,7 @@
  */
 
 module.exports = {
-  adapter: 'production',
+  connection: 'production',
   schema: true,
   autoUpdatedAt: false,
 
