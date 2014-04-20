@@ -1635,7 +1635,17 @@ function () {
               }
             });
           })
-        }
+        },
+        removeListener: function (eventName, callback) {
+          socket.removeListener(eventName, function () {
+            var args = arguments;
+            $rootScope.$apply(function () {
+              if (callback) {
+                callback.apply(socket, args);
+              }
+            });
+          })
+        },
       };
     }).controller("DashboardCtrl", ["$scope", "socket", function($scope, socket) {
         var subscribe = function() {
@@ -1653,6 +1663,9 @@ function () {
             socket.get('/dashboard/GlobalUnsubscribe', function(data) {});
             socket.get('/dashboard/TopServersUnsubscribe', function(data) {});
             socket.get('/dashboard/TopPlayersUnsubscribe', function(data) {});
+            socket.removeListener('globalDashboardUpdate');
+            socket.removeListener('topPlayersDashboardUpdate');
+            socket.removeListener('topServersDashboardUpdate');
         };
 
         socket.on('globalDashboardUpdate', function(data) {
