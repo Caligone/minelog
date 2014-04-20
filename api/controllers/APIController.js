@@ -243,6 +243,9 @@ module.exports = {
               stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : stats.pvpDeaths);
               stats.save();
               res.json({ status: 0, message: "Kill added", kill: kill });
+              DashboardService.getGlobalData(function(data) {
+                sails.sockets.broadcast('globalDashboardDashboardRoom', 'globalDashboardUpdate', data);
+              });
               DashboardService.getTopPlayers(function(data) {
                 sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
               });
@@ -286,7 +289,10 @@ module.exports = {
             res.json({ status: 0, errorMessage: "User updated", user: user });
           }
           DashboardService.getGlobalData(function(data) {
-            sails.sockets.broadcast('globalDashboardRoom', 'globalDashboardUpdate', data);
+            sails.sockets.broadcast('globalDashboardDashboardRoom', 'globalDashboardUpdate', data);
+          });
+          DashboardService.getTopPlayers(function(data) {
+            sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
           });
         });
       });
