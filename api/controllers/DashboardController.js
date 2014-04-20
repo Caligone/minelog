@@ -53,9 +53,7 @@ module.exports = {
         avgRatio /= nbRatio;
         avgRatio = avgRatio.toFixed(2);
         users[user].avgRatio = avgRatio;
-        console.log(users[user].avgRatio);
       }
-        console.log(users);
       res.json({ status: 0, users: users });
     });
   },

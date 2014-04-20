@@ -42,13 +42,11 @@ module.exports.views = {
   //        partials/layouts themselves.  In those cases, this config will be silently
   //        ignored.
   //
-  // The `layout` setting may be set to one of:
+  // The `layout` setting may be set to one of the following:
   //
-  // If `true`, Sails will look for the default, located at `views/layout.ejs`
   // If `false`, layouts will be disabled.
   // Otherwise, if a string is specified, it will be interpreted as the relative path
-  // to your layout from `views/` folder.
-  // (the file extension, e.g. ".ejs", should be omitted)
+  // to your layout file from `views/` folder. (the file extension, ".ejs", should be omitted)
   //
 
   layout: false
