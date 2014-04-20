@@ -17,23 +17,6 @@
 
 module.exports = {
 
-  getGlobalData: function(req, res) {
-    User.count().exec(function(err, userscount) {
-      Server.count().exec(function(err, serverscount) {
-        Kill.count().exec(function(err, killscount) {
-          UserStat.find().sum('blocksBroken').exec(function(err, blockscount) {
-            if(!err && blockscount.length > 0) {
-              res.json({ status: -1, users: userscount, servers: serverscount, kills: killscount, blocks: blockscount[0].blocksBroken});
-            }
-            else {
-              res.json({ status: -1, users: userscount, servers: serverscount, kills: killscount, blocks: 0});
-            }
-          });
-        });
-      });
-    });
-  },
-
   getServersData: function(req, res) {
     Server.find().sort({onlinePlayers: 'desc'}).limit(5).exec(function(err, servers) {
       res.json({ status: 0, servers: servers });
@@ -56,6 +39,20 @@ module.exports = {
       }
       res.json({ status: 0, users: users });
     });
+  },
+
+  subscribe: function(req, res) {
+    sails.sockets.join(req.socket, 'dashboardRoom');
+    console.log(req.socket.id+" subscribed to dashboardRoom");
+    DashboardService.getGlobalData(function(data) {
+      res.json(data);
+    });
+  },
+
+  unsubscribe: function(req, res) {
+    sails.sockets.leave(req.socket, 'dashboardRoom');
+    console.log(req.socket.id+" unsubscribed to dashboardRoom");
+    res.json({ status: 0 });
   },
 
   /**

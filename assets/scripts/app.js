@@ -1575,32 +1575,86 @@ function () {
                 return $scope.taskRemainingCount = count
             })
         }
-    ]).controller("DashboardCtrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
-        var queryGlobalData = function() {
-            $http.get("/ajax/dashboardGlobalData").success(function(counters) {
-              $scope.counters = counters;
+    ]).factory('socket', function ($rootScope) {
+      var socket = io.socket;
+      return {
+        on: function (eventName, callback) {
+          socket.on(eventName, function () {
+            var args = arguments;
+            $rootScope.$apply(function () {
+              callback.apply(socket, args);
+            });
+          });
+        },
+        emit: function (eventName, data, callback) {
+          socket.emit(eventName, data, function () {
+            var args = arguments;
+            $rootScope.$apply(function () {
+              if (callback) {
+                callback.apply(socket, args);
+              }
+            });
+          })
+        },
+        get: function (url, callback) {
+          socket.get(url, function () {
+            var args = arguments;
+            $rootScope.$apply(function () {
+              if (callback) {
+                callback.apply(socket, args);
+              }
+            });
+          })
+        },
+        post: function (url, callback) {
+          socket.post(url, function () {
+            var args = arguments;
+            $rootScope.$apply(function () {
+              if (callback) {
+                callback.apply(socket, args);
+              }
+            });
+          })
+        },
+        put: function (url, callback) {
+          socket.put(url, function () {
+            var args = arguments;
+            $rootScope.$apply(function () {
+              if (callback) {
+                callback.apply(socket, args);
+              }
+            });
+          })
+        },
+        delete: function (url, callback) {
+          socket.delete(url, function () {
+            var args = arguments;
+            $rootScope.$apply(function () {
+              if (callback) {
+                callback.apply(socket, args);
+              }
+            });
+          })
+        }
+      };
+    }).controller("DashboardCtrl", ["$scope", "socket", function($scope, socket) {
+        var subscribe = function() {
+            socket.get('/socket/dashboardSubscribe', function(data) {
+                $scope.counters = data;
             });
         };
-        var queryServersData = function() {
-            $http.get("/ajax/dashboardServersData").success(function(data) {
-              $scope.servers = data.servers;
-            });
+        var unsubscribe = function() {
+            socket.get('/socket/dashboardUnsubscribe', function(data) {});
         };
-        var queryUsersData = function() {
-            $http.get("/ajax/dashboardUsersData").success(function(data) {
-              $scope.users = data.users;
-            });
-        };
-        var promiseGlobalData = $interval(queryGlobalData, 20000);
-        var promiseServersData = $interval(queryGlobalData, 30000);
-        var promiseUsersData = $interval(queryGlobalData, 30000);
-        queryGlobalData();
-        queryServersData();
-        queryUsersData();
-        $scope.$on("$destroy", function(){
-            $interval.cancel(promiseGlobalData);
-            $interval.cancel(promiseServersData);
-            $interval.cancel(promiseUsersData);
+
+        socket.on('dashboardUpdate', function(data) {
+            console.log("Update received !");
+            $scope.counters = data;
+        });
+
+        subscribe();
+        $scope.$on('$destroy', function(){
+            unsubscribe();
         });
       }
     ])

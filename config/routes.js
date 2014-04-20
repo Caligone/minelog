@@ -36,9 +36,8 @@ module.exports.routes = {
   '/players': { view: 'players' },
   '/pages/404': { view: 'pages/404' },
   '/pages/500': { view: 'pages/500' },
-  '/ajax/dashboardGlobalData' : { controller: 'dashboard', action: 'getGlobalData'},
-  '/ajax/dashboardServersData' : { controller: 'dashboard', action: 'getServersData'},
-  '/ajax/dashboardUsersData' : { controller: 'dashboard', action: 'getUsersData'}
+  '/socket/dashboardSubscribe' : { controller: 'dashboard', action: 'subscribe'},
+  '/socket/dashboardUnsubscribe' : { controller: 'dashboard', action: 'unsubscribe'}
 
 
   // Custom routes here...

@@ -265,6 +265,9 @@ module.exports = {
         }
 
         stats.save(function(err) {
+          DashboardService.getGlobalData(function(data) {
+            sails.sockets.broadcast('dashboardRoom', 'dashboardUpdate', data);
+          });
           if(err) {
             res.json({ status: -1, errorMessage: "User could not be updated", err: err });
           }
