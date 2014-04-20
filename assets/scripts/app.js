@@ -1689,6 +1689,7 @@ function () {
         };
         var unsubscribe = function() {
             socket.get('/serversList/ServersListUnsubscribe', function(data) {});
+            socket.removeListener('serversListUpdate');
         };
         $http({method: 'GET', url: '/serversList/serverNames'}).success(function(serverNames) {
             $scope.serverNames = serverNames;
