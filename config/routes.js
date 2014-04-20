@@ -36,8 +36,12 @@ module.exports.routes = {
   '/players': { view: 'players' },
   '/pages/404': { view: 'pages/404' },
   '/pages/500': { view: 'pages/500' },
-  '/socket/dashboardSubscribe' : { controller: 'dashboard', action: 'subscribe'},
-  '/socket/dashboardUnsubscribe' : { controller: 'dashboard', action: 'unsubscribe'}
+  'dashboard/GlobalSubscribe' : { controller: 'dashboard', action: 'globalSubscribe'},
+  'dashboard/GlobalUnsubscribe' : { controller: 'dashboard', action: 'globalUnsubscribe'},
+  'dashboard/TopPlayersSubscribe' : { controller: 'dashboard', action: 'topPlayersSubscribe'},
+  'dashboard/TopPlayersUnsubscribe' : { controller: 'dashboard', action: 'topPlayersUnsubscribe'},
+  'dashboard/TopServersSubscribe' : { controller: 'dashboard', action: 'topServersSubscribe'},
+  'dashboard/TopServersUnsubscribe' : { controller: 'dashboard', action: 'topServersUnsubscribe'},
 
 
   // Custom routes here...

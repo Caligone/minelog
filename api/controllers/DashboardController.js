@@ -17,41 +17,45 @@
 
 module.exports = {
 
-  getServersData: function(req, res) {
-    Server.find().sort({onlinePlayers: 'desc'}).limit(5).exec(function(err, servers) {
-      res.json({ status: 0, servers: servers });
-    });
-  },
-
-  getUsersData: function(req, res) {
-    User.find().limit(5).populate('stats').exec(function(err, users) {
-      for(user in users) {
-        var avgRatio = 0, nbRatio = 0;
-        for(stat in users[user].stats) {
-          if(!isNaN(parseInt(users[user].stats[stat].ratio))) {
-            avgRatio += users[user].stats[stat].ratio;
-            nbRatio++;
-          }
-        }
-        avgRatio /= nbRatio;
-        avgRatio = avgRatio.toFixed(2);
-        users[user].avgRatio = avgRatio;
-      }
-      res.json({ status: 0, users: users });
-    });
-  },
-
-  subscribe: function(req, res) {
-    sails.sockets.join(req.socket, 'dashboardRoom');
-    console.log(req.socket.id+" subscribed to dashboardRoom");
+  globalSubscribe: function(req, res) {
+    console.log(req.socket.id+" subscribed to globalDashboardDashboardRoom");
+    sails.sockets.join(req.socket, 'globalDashboardDashboardRoom');
     DashboardService.getGlobalData(function(data) {
       res.json(data);
     });
   },
 
-  unsubscribe: function(req, res) {
-    sails.sockets.leave(req.socket, 'dashboardRoom');
-    console.log(req.socket.id+" unsubscribed to dashboardRoom");
+  globalUnsubscribe: function(req, res) {
+    console.log(req.socket.id+" unsubscribed to globalDashboardDashboardRoom");
+    sails.sockets.leave('globalDashboardDashboardRoom');
+    res.json({ status: 0 });
+  },
+
+  topPlayersSubscribe: function(req, res) {
+    console.log(req.socket.id+" subscribed to topPlayersDashboardRoom");
+    sails.sockets.join(req.socket, 'topPlayersDashboardRoom');
+    DashboardService.getTopPlayers(function(data) {
+      res.json(data);
+    });
+  },
+
+  topPlayersUnsubscribe: function(req, res) {
+    console.log(req.socket.id+" unsubscribed to topPlayersDashboardRoom");
+    sails.sockets.leave('topPlayersDashboardRoom');
+    res.json({ status: 0 });
+  },
+
+  topServersSubscribe: function(req, res) {
+    console.log(req.socket.id+" subscribed to topServersDashboardRoom");
+    sails.sockets.join(req.socket, 'topServersDashboardRoom');
+    DashboardService.getTopServers(function(data) {
+      res.json(data);
+    });
+  },
+
+  topServersUnsubscribe: function(req, res) {
+    console.log(req.socket.id+" unsubscribed to topServersDashboardRoom");
+    sails.sockets.leave('topServersDashboardRoom');
     res.json({ status: 0 });
   },
 

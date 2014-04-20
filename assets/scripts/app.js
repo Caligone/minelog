@@ -1639,17 +1639,38 @@ function () {
       };
     }).controller("DashboardCtrl", ["$scope", "socket", function($scope, socket) {
         var subscribe = function() {
-            socket.get('/socket/dashboardSubscribe', function(data) {
-                $scope.counters = data;
+            socket.get('/dashboard/GlobalSubscribe', function(counters) {
+                $scope.counters = counters;
+            });
+            socket.get('/dashboard/TopServersSubscribe', function(data) {
+                $scope.servers = data.servers;
+            });
+            socket.get('/dashboard/TopPlayersSubscribe', function(data) {
+                $scope.users = data.users;
             });
         };
         var unsubscribe = function() {
-            socket.get('/socket/dashboardUnsubscribe', function(data) {});
+            socket.get('/dashboard/GlobalUnsubscribe', function(data) {});
+            socket.get('/dashboard/TopServersUnsubscribe', function(data) {});
+            socket.get('/dashboard/TopPlayersUnsubscribe', function(data) {});
         };
 
-        socket.on('dashboardUpdate', function(data) {
-            console.log("Update received !");
+        socket.on('globalDashboardUpdate', function(data) {
+            console.log("Update (global) received !");
+            console.log(data);
             $scope.counters = data;
+        });
+
+        socket.on('topPlayersDashboardUpdate', function(data) {
+            console.log("Update (topPlayers) received !");
+            console.log(data);
+            $scope.users = data.users;
+        });
+
+        socket.on('topServersDashboardUpdate', function(data) {
+            console.log("Update (topServers) received !");
+            console.log(data);
+            $scope.servers = data.servers;
         });
 
         subscribe();

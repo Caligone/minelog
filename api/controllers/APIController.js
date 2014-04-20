@@ -136,6 +136,9 @@ module.exports = {
           else {
             res.json({ status: 0, message: "Server found", server: server, apiversion: APIVersion });
           }
+          DashboardService.getTopServers(function(data) {
+            sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
+          });
         })
       });
   },
@@ -152,6 +155,9 @@ module.exports = {
         else {
           res.json({ status: 0, message: "Server found", server: server });
         }
+        DashboardService.getTopServers(function(data) {
+          sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
+        });
       })
     });
   },
@@ -170,13 +176,16 @@ module.exports = {
       server.save(function(err) {
         checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
           user.online = true;
-          user.save(function(err) { // NOT WORKING
+          user.save(function(err) {
             if(err) {
               res.json({ status: -1, errorMessage: "User could not be updated", err: err });
             }
             else {
               res.json({ status: 0, errorMessage: "User updated", user: user });
             }
+            DashboardService.getTopPlayers(function(data) {
+              sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
+            });
           })
         })
       })
@@ -190,13 +199,16 @@ module.exports = {
       server.save(function(err) {
         checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
           user.online = false;
-          user.save(function(err) { // NOT WORKING
+          user.save(function(err) {
             if(err) {
               res.json({ status: -1, errorMessage: "User could not be updated", err: err });
             }
             else {
               res.json({ status: 0, errorMessage: "User updated", user: user });
             }
+            DashboardService.getTopPlayers(function(data) {
+              sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
+            });
           })
         })
       })
@@ -221,7 +233,6 @@ module.exports = {
               stats.kills++;
               stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : stats.pvpDeaths);
               stats.save();
-
               stats = null;
               for (var i = killed.stats.length - 1; i >= 0; i--) {
                 if(killed.stats[i].server === server.id) {
@@ -232,6 +243,9 @@ module.exports = {
               stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : stats.pvpDeaths);
               stats.save();
               res.json({ status: 0, message: "Kill added", kill: kill });
+              DashboardService.getTopPlayers(function(data) {
+                sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
+              });
             }
           });
         });
@@ -265,15 +279,15 @@ module.exports = {
         }
 
         stats.save(function(err) {
-          DashboardService.getGlobalData(function(data) {
-            sails.sockets.broadcast('dashboardRoom', 'dashboardUpdate', data);
-          });
           if(err) {
             res.json({ status: -1, errorMessage: "User could not be updated", err: err });
           }
           else {
             res.json({ status: 0, errorMessage: "User updated", user: user });
           }
+          DashboardService.getGlobalData(function(data) {
+            sails.sockets.broadcast('globalDashboardRoom', 'globalDashboardUpdate', data);
+          });
         });
       });
     });
