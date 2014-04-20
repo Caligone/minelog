@@ -164,6 +164,9 @@ module.exports = {
         ServersService.getServers(function(data) {
           sails.sockets.broadcast('serversListRoom', 'serversListUpdate', data);
         });
+        PlayersService.getPlayers(function(data) {
+          sails.sockets.broadcast('playersListRoom', 'playersListUpdate', data);
+        });
       })
     });
   },
@@ -198,6 +201,9 @@ module.exports = {
             ServersService.getServers(function(data) {
               sails.sockets.broadcast('serversListRoom', 'serversListUpdate', data);
             });
+            PlayersService.getPlayers(function(data) {
+              sails.sockets.broadcast('playersListRoom', 'playersListUpdate', data);
+            });
           })
         })
       })
@@ -226,6 +232,9 @@ module.exports = {
             });
             ServersService.getServers(function(data) {
               sails.sockets.broadcast('serversListRoom', 'serversListUpdate', data);
+            });
+            PlayersService.getPlayers(function(data) {
+              sails.sockets.broadcast('playersListRoom', 'playersListUpdate', data);
             });
           })
         })
@@ -266,6 +275,9 @@ module.exports = {
               });
               DashboardService.getTopPlayers(function(data) {
                 sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
+              });
+              PlayersService.getPlayers(function(data) {
+                sails.sockets.broadcast('playersListRoom', 'playersListUpdate', data);
               });
             }
           });
@@ -311,6 +323,9 @@ module.exports = {
           });
           DashboardService.getTopPlayers(function(data) {
             sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
+          });
+          PlayersService.getPlayers(function(data) {
+            sails.sockets.broadcast('playersListRoom', 'playersListUpdate', data);
           });
         });
       });

@@ -1,4 +1,4 @@
-// DashboardService.js - in api/services
+// ServersService.js - in api/services
 exports.getServerNames = function(callback) {
   Server.find().exec(function(err, servers) {
     var serverNames = [];

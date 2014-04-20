@@ -1701,5 +1701,25 @@ function () {
         $scope.$on('$destroy', function(){
             unsubscribe();
         });
+    }]).controller("PlayersListCtrl", ["$scope", "$http", "socket", function($scope, $http, socket) {
+        var subscribe = function() {
+            socket.get('/playersList/PlayersListSubscribe', function(players) {
+                $scope.players = players;
+            });
+        };
+        var unsubscribe = function() {
+            socket.get('/playersList/PlayersListUnsubscribe', function(data) {});
+            socket.removeListener('playersListUpdate');
+        };
+        $http({method: 'GET', url: '/playersList/playerNames'}).success(function(playerNames) {
+            $scope.playerNames = playerNames;
+        });
+        socket.on('playersListUpdate', function(players) {
+            $scope.players = players;
+        });
+        subscribe();
+        $scope.$on('$destroy', function(){
+            unsubscribe();
+        });
     }])
 }.call(this);
