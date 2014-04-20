@@ -1945,7 +1945,7 @@ th {
 .table > tfoot > tr > td {
   padding: 10px;
   line-height: 1.42857;
-  vertical-align: top;
+  vertical-align: center;
   border-top: 1px solid #dddddd;
 }
 .table > thead > tr > th {
@@ -10192,4 +10192,9 @@ button.toast-close-button {
 }
 .form-validation .ng-invalid.ng-dirty {
   border-color: #e94b3b;
+}
+.server-capacity {
+  font-size: 80%;
+  text-align: center;
+  width: 100%;
 }

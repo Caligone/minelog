@@ -16,7 +16,7 @@
  */
 
 // TOOLS
-var APIVersion = '0.1';
+var APIVersion = '1.0';
 
 // Check the server from the key field
 var checkServer = function(req, res, key, callback) {
@@ -139,6 +139,9 @@ module.exports = {
           DashboardService.getTopServers(function(data) {
             sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
           });
+          ServersService.getServers(function(data) {
+            sails.sockets.broadcast('serversListRoom', 'serversListUpdate', data);
+          });
         })
       });
   },
@@ -157,6 +160,9 @@ module.exports = {
         }
         DashboardService.getTopServers(function(data) {
           sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
+        });
+        ServersService.getServers(function(data) {
+          sails.sockets.broadcast('serversListRoom', 'serversListUpdate', data);
         });
       })
     });
@@ -189,6 +195,9 @@ module.exports = {
             DashboardService.getTopServers(function(data) {
               sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
             });
+            ServersService.getServers(function(data) {
+              sails.sockets.broadcast('serversListRoom', 'serversListUpdate', data);
+            });
           })
         })
       })
@@ -214,6 +223,9 @@ module.exports = {
             });
             DashboardService.getTopServers(function(data) {
               sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
+            });
+            ServersService.getServers(function(data) {
+              sails.sockets.broadcast('serversListRoom', 'serversListUpdate', data);
             });
           })
         })
@@ -250,7 +262,7 @@ module.exports = {
               stats.save();
               res.json({ status: 0, message: "Kill added", kill: kill });
               DashboardService.getGlobalData(function(data) {
-                sails.sockets.broadcast('globalDashboardDashboardRoom', 'globalDashboardUpdate', data);
+                sails.sockets.broadcast('globalDashboardRoom', 'globalDashboardUpdate', data);
               });
               DashboardService.getTopPlayers(function(data) {
                 sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
@@ -295,7 +307,7 @@ module.exports = {
             res.json({ status: 0, errorMessage: "User updated", user: user });
           }
           DashboardService.getGlobalData(function(data) {
-            sails.sockets.broadcast('globalDashboardDashboardRoom', 'globalDashboardUpdate', data);
+            sails.sockets.broadcast('globalDashboardRoom', 'globalDashboardUpdate', data);
           });
           DashboardService.getTopPlayers(function(data) {
             sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);

@@ -42,7 +42,8 @@ module.exports.routes = {
   'dashboard/TopPlayersUnsubscribe' : { controller: 'dashboard', action: 'topPlayersUnsubscribe'},
   'dashboard/TopServersSubscribe' : { controller: 'dashboard', action: 'topServersSubscribe'},
   'dashboard/TopServersUnsubscribe' : { controller: 'dashboard', action: 'topServersUnsubscribe'},
-
+  '/serversList/ServersListSubscribe' : { controller: 'ServersList', action: 'serversListSubscribe'},
+  '/serversList/serverNames' : { controller: 'ServersList', action: 'getServerNames'},
 
   // Custom routes here...
 

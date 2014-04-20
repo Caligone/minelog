@@ -18,16 +18,16 @@
 module.exports = {
 
   globalSubscribe: function(req, res) {
-    console.log(req.socket.id+" subscribed to globalDashboardDashboardRoom");
-    sails.sockets.join(req.socket, 'globalDashboardDashboardRoom');
+    console.log(req.socket.id+" subscribed to globalDashboardRoom");
+    sails.sockets.join(req.socket, 'globalDashboardRoom');
     DashboardService.getGlobalData(function(data) {
       res.json(data);
     });
   },
 
   globalUnsubscribe: function(req, res) {
-    console.log(req.socket.id+" unsubscribed to globalDashboardDashboardRoom");
-    sails.sockets.leave('globalDashboardDashboardRoom');
+    console.log(req.socket.id+" unsubscribed to globalDashboardRoom");
+    sails.sockets.leave('globalDashboardRoom');
     res.json({ status: 0 });
   },
 

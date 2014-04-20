@@ -708,10 +708,6 @@ function () {
                 return $scope.mytime = null
             }
         }
-    ]).controller("TypeaheadCtrl", ["$scope",
-        function ($scope) {
-            return $scope.selected = void 0, $scope.states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Dakota", "North Carolina", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
-        }
     ]).controller("RatingDemoCtrl", ["$scope",
         function ($scope) {
             return $scope.rate = 7, $scope.max = 10, $scope.isReadonly = !1, $scope.hoveringOver = function (value) {
@@ -1669,20 +1665,14 @@ function () {
         };
 
         socket.on('globalDashboardUpdate', function(data) {
-            console.log("Update (global) received !");
-            console.log(data);
             $scope.counters = data;
         });
 
         socket.on('topPlayersDashboardUpdate', function(data) {
-            console.log("Update (topPlayers) received !");
-            console.log(data);
             $scope.users = data.users;
         });
 
         socket.on('topServersDashboardUpdate', function(data) {
-            console.log("Update (topServers) received !");
-            console.log(data);
             $scope.servers = data.servers;
         });
 
@@ -1691,5 +1681,24 @@ function () {
             unsubscribe();
         });
       }
-    ])
+    ]).controller("ServersListCtrl", ["$scope", "$http", "socket", function($scope, $http, socket) {
+        var subscribe = function() {
+            socket.get('/serversList/ServersListSubscribe', function(servers) {
+                $scope.servers = servers;
+            });
+        };
+        var unsubscribe = function() {
+            socket.get('/serversList/ServersListUnsubscribe', function(data) {});
+        };
+        $http({method: 'GET', url: '/serversList/serverNames'}).success(function(serverNames) {
+            $scope.serverNames = serverNames;
+        });
+        socket.on('serversListUpdate', function(servers) {
+            $scope.servers = servers;
+        });
+        subscribe();
+        $scope.$on('$destroy', function(){
+            unsubscribe();
+        });
+    }])
 }.call(this);
