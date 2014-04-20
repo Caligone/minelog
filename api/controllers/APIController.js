@@ -186,6 +186,9 @@ module.exports = {
             DashboardService.getTopPlayers(function(data) {
               sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
             });
+            DashboardService.getTopServers(function(data) {
+              sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
+            });
           })
         })
       })
@@ -208,6 +211,9 @@ module.exports = {
             }
             DashboardService.getTopPlayers(function(data) {
               sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
+            });
+            DashboardService.getTopServers(function(data) {
+              sails.sockets.broadcast('topServersDashboardRoom', 'topServersDashboardUpdate', data);
             });
           })
         })
