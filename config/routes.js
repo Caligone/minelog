@@ -34,22 +34,25 @@ module.exports.routes = {
   '/faq': { view: 'faq' },
   '/servers': { view: 'servers' },
   '/players': { view: 'players' },
-  '/pages/404': { view: 'pages/404' },
-  '/pages/500': { view: 'pages/500' },
+  '/server': { view: 'server' },
+  '/player': { view: 'player' },
+  '/404': { view: '404' },
+
   'dashboard/GlobalSubscribe' : { controller: 'dashboard', action: 'globalSubscribe'},
   'dashboard/GlobalUnsubscribe' : { controller: 'dashboard', action: 'globalUnsubscribe'},
   'dashboard/TopPlayersSubscribe' : { controller: 'dashboard', action: 'topPlayersSubscribe'},
   'dashboard/TopPlayersUnsubscribe' : { controller: 'dashboard', action: 'topPlayersUnsubscribe'},
   'dashboard/TopServersSubscribe' : { controller: 'dashboard', action: 'topServersSubscribe'},
   'dashboard/TopServersUnsubscribe' : { controller: 'dashboard', action: 'topServersUnsubscribe'},
+
   '/serversList/ServersListSubscribe' : { controller: 'ServersList', action: 'serversListSubscribe'},
   '/serversList/ServersListUnsubscribe' : { controller: 'ServersList', action: 'serversListUnsubscribe'},
   '/serversList/serverNames' : { controller: 'ServersList', action: 'getServerNames'},
+
   '/playersList/PlayersListSubscribe' : { controller: 'PlayersList', action: 'playersListSubscribe'},
   '/playersList/PlayersListUnsubscribe' : { controller: 'PlayersList', action: 'playersListUnsubscribe'},
   '/playersList/playerNames' : { controller: 'PlayersList', action: 'getPlayerNames'},
-
-  // Custom routes here...
+  '/player/player' : { controller: 'PlayerController', action: 'player'},
 
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched

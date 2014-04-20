@@ -26,3 +26,20 @@ exports.getPlayers = function(callback) {
       callback(users);
     });
 };
+
+exports.getPlayer = function(id, callback) {
+  console.log(id);
+   User.find().where({id: id}).limit(1).populate('stats').populate('servers').exec(function(err, users) {
+      var user = users[0];
+      var avgRatio = 0, nbRatio = 0;
+      for(stat in user.stats) {
+        if(!isNaN(parseInt(user.stats[stat].ratio))) {
+          avgRatio += user.stats[stat].ratio;
+          nbRatio++;
+        }
+      }
+      avgRatio /= nbRatio;
+      avgRatio = avgRatio.toFixed(2);
+      callback(user);
+    });
+};

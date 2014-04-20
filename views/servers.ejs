@@ -24,8 +24,8 @@
           </tr>
       </thead>
       <tbody>
-          <tr ng-repeat="server in servers | filter:{ name: selected }">
-              <td><span>{{server.name}}</span></td>
+          <tr class="animate" ng-repeat="server in servers | filter:{ name: selected }">
+              <td><a href="/#/server/{{server.id}}" alt="{{server.name}}">{{server.name}}</a></td>
               <td ng-if="server.online"><span class="label label-success">En ligne</span></td>
               <td ng-if="!server.online"><span class="label label-danger">Hors ligne</span></td>
               <td><div class="server-capacity">{{server.onlinePlayers}}/{{server.size}}</div><progressbar class="progressbar-xs no-margin" ng-attr-value="server.onlinePlayers/server.size*100" type="success"></progressbar></td>

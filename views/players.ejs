@@ -18,15 +18,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th>#</th>
                 <th>Pseudo</th>
+                <th>Statut</th>
                 <th>Ratio</th>
                 <th>Score</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="player in players | filter:{ pseudo: selected }">
-                <td><span>{{player.pseudo}}</span></td>
+            <tr class="animate" ng-repeat="player in players | filter:{ pseudo: selected }">
+                <td><a href="/#/player/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
                 <td ng-if="player.online"><span class="label label-success">En ligne</span></td>
                 <td ng-if="!player.online"><span class="label label-danger">Hors ligne</span></td>
                 <td><em>{{player.avgRatio}}<em></td>
