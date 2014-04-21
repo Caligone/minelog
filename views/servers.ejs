@@ -1,7 +1,7 @@
 <section class="page-form-ele page" data-ng-controller="ServersListCtrl">
 
     <section class="panel panel-default">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Recherche d'un serveur</strong></div>
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="search-a-server"></span></strong></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
@@ -9,7 +9,8 @@
                            ng-model="selected"
                            typeahead="serverName for serverName in serverNames | filter:$viewValue | limitTo:8"
                            class="form-control"
-                           placeholder="Recherche">
+                           data-i18n="i18n-placeholder"
+                           placeholder="search">
                 </div>
             </div>
         </div>
@@ -18,16 +19,16 @@
   <table class="table">
       <thead>
           <tr>
-              <th>Nom</th>
-              <th>Status</th>
-              <th>Joueurs</th>
+              <th data-i18n="name"></th>
+              <th data-i18n="status"></th>
+              <th data-i18n="players"></th>
           </tr>
       </thead>
       <tbody>
           <tr class="animate" ng-repeat="server in servers | filter:{ name: selected }">
               <td><a href="/#/server/{{server.id}}" alt="{{server.name}}">{{server.name}}</a></td>
-              <td ng-if="server.online"><span class="label label-success">En ligne</span></td>
-              <td ng-if="!server.online"><span class="label label-danger">Hors ligne</span></td>
+              <td ng-if="server.online"><span class="label label-success" data-i18n="online"></span></td>
+              <td ng-if="!server.online"><span class="label label-danger" data-i18n="offline"></span></td>
               <td><div class="server-capacity">{{server.onlinePlayers}}/{{server.size}}</div><progressbar class="progressbar-xs no-margin" ng-attr-value="server.onlinePlayers/server.size*100" type="success"></progressbar></td>
           </tr>
       </tbody>

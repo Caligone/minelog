@@ -1,7 +1,7 @@
 <section class="page-form-ele page" data-ng-controller="PlayersListCtrl">
 
     <section class="panel panel-default">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Recherche d'un joueur</strong></div>
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="search-a-player"></span></strong></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
@@ -9,7 +9,8 @@
                            ng-model="selected"
                            typeahead="playerName for playerName in playerNames | filter:$viewValue | limitTo:8"
                            class="form-control"
-                           placeholder="Recherche">
+                           data-i18n="i18n-placeholder"
+                           placeholder="search">
                 </div>
             </div>
         </div>
@@ -18,17 +19,17 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Pseudo</th>
-                <th>Statut</th>
-                <th>Ratio</th>
-                <th>Score</th>
+                <th data-i18n="pseudo"></th>
+                <th data-i18n="status"></th>
+                <th data-i18n="ratio"></th>
+                <th data-i18n="score"></th>
             </tr>
         </thead>
         <tbody>
             <tr class="animate" ng-repeat="player in players | filter:{ pseudo: selected }">
                 <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
-                <td ng-if="player.online"><span class="label label-success">En ligne</span></td>
-                <td ng-if="!player.online"><span class="label label-danger">Hors ligne</span></td>
+                <td ng-if="player.online"><span class="label label-success" data-i18n="online"></span></td>
+                <td ng-if="!player.online"><span class="label label-danger" data-i18n="offline"></span></td>
                 <td><em>{{player.avgRatio}}<em></td>
                 <td><em>N/A (yet)<em></td>
             </tr>

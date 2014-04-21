@@ -1,11 +1,34 @@
 {
+    "title": "MineLog",
+    "pitch": "Minelog ! Il faut qu'on trouve un putain de pitch ! Ah... Ah non j'ai cru",
     "home": "Accueil",
     "servers": "Serveurs",
     "players": "Joueurs",
     "faq": "F.A.Q.",
     "feedback": "Donnez votre avis",
-    "active-players" : "Joueurs actifs",
-    "active-servers" : "Serveurs actifs",
-    "victims" : "Victimes",
-    "mined-blocks" : "Blocs minés"
+    "active-players": "Joueurs actifs",
+    "active-servers": "Serveurs actifs",
+    "victims": "Victimes",
+    "mined-blocks": "Blocs minés",
+    "top-servers": "Top Serveurs",
+    "name": "Nom",
+    "status": "Statut",
+    "players": "Joueurs",
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "pseudo": "Pseudo",
+    "ratio": "Ratio",
+    "score": "Score",
+    "search-a-server": "Rechercher un serveur",
+    "search" : "Rechercher",
+    "search-a-player": "Rechercher un joueur",
+    "404-message": "Cube non trouvé",
+    "500-message": "Minelog semble cassé... Qu'avez-vous fait? :(",
+    "back-to-minelog" : "Retourner sur Minelog",
+    "title" : "Titre",
+    "send-feedback" : "Envoyer votre avis",
+    "relevant-title" : "Un titre pertinent aidera au traitement de votre message.",
+
+
+    "empty": ""
 }

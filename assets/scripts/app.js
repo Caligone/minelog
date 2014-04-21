@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angular.module("app", ["ngRoute", "ngAnimate", "ui.bootstrap", "app.controllers", "app.directives", "app.localization"])
+    angular.module("app", ["ngRoute", "ngAnimate", "textAngular", "ui.bootstrap", "app.controllers", "app.directives", "app.localization"])
     .config(["$routeProvider",
         function ($routeProvider) {
             return $routeProvider.when("/", {

@@ -1,6 +1,5 @@
 <div class="page page-dashboard" data-ng-controller="DashboardCtrl">
 
-    <!-- stats -->
     <div class="row">
       <div class="col-lg-3 col-xsm-6">
           <div class="panel mini-box">
@@ -48,36 +47,33 @@
         </div>
 
     </div>
-    <!-- end stats -->
 
-    <!-- pitch -->
     <div class="row">
       <section class="panel panel-box">
         <div class="panel-body">
-            <h2>Minelog, I need to find an awesome pitch ! Just a bit longer... Yes !</h3>
-            <p>By Caligone</p>
+            <h2 data-i18n="pitch"></h3>
+            <p><em>Caligone</em></p>
         </div>
       </section>
     </div>
-    <!-- end pitch -->
 
     <div class="col-md-6">
       <div class="panel panel-default">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Top Serveurs"></span></strong></div>
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="top-servers"></span></strong></div>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Statut</th>
-                    <th>Joueurs</th>
+                    <th data-i18n="name"></th>
+                    <th data-i18n="status"></th>
+                    <th data-i18n="players"></th>
                 </tr>
             </thead>
             <tbody>
                 <tbody>
                 <tr ng-repeat="server in servers" class="animate" >
                     <td><a href="/#/server/{{server.id}}" alt="{{server.name}}">{{server.name}}</a></td>
-                    <td ng-if="server.online"><span class="label label-success">En ligne</span></td>
-                    <td ng-if="!server.online"><span class="label label-danger">Hors ligne</span></td>
+                    <td ng-if="server.online"><span class="label label-success" data-i18n="online"></span></td>
+                    <td ng-if="!server.online"><span class="label label-danger" data-i18n="offline"></span></td>
                     <td><div class="server-capacity">{{server.onlinePlayers}}/{{server.size}}</div><progressbar class="progressbar-xs no-margin" ng-attr-value="server.onlinePlayers/server.size*100" type="success"></progressbar></td>
                 </tr>
             </tbody>
@@ -92,17 +88,17 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Pseudo</th>
-                    <th>Statut</th>
-                    <th>Ratio</th>
-                    <th>Score</th>
+                    <th data-i18n="pseudo"></th>
+                    <th data-i18n="status"></th>
+                    <th data-i18n="ratio"></th>
+                    <th data-i18n="score"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="player in players" class="animate" >
                     <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
-                    <td ng-if="player.online"><span class="label label-success">En ligne</span></td>
-                    <td ng-if="!player.online"><span class="label label-danger">Hors ligne</span></td>
+                    <td ng-if="player.online"><span class="label label-success" data-i18n="online"></span></td>
+                    <td ng-if="!player.online"><span class="label label-danger" data-i18n="offline"></span></td>
                     <td><em>{{player.avgRatio}}<em></td>
                     <td><em>N/A (yet)<em></td>
                 </tr>
