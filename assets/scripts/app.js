@@ -325,8 +325,8 @@ function () {
                 templateUrl: "servers"
             }).when("/players", {
                 templateUrl: "players"
-            }).when("/player/:id", {
-                templateUrl: "player"
+            }).when("/profile/:id", {
+                templateUrl: "profile"
             }).when("/server/:id", {
                 templateUrl: "server"
             }).when("/404", {

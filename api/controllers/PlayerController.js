@@ -16,21 +16,7 @@
  */
 
 module.exports = {
-/*
-  playerSubscribe: function(req, res) {
-    console.log(req.socket.id+" subscribed to serversListRoom");
-    sails.sockets.join(req.socket, 'serversListRoom');
-    ServersService.getServers(function(data) {
-      res.json(data);
-    });
-  },
 
-  playerUnsubscribe: function(req, res) {
-    console.log(req.socket.id+" unsubscribed to serversListRoom");
-    sails.sockets.leave('serversListRoom');
-    res.json({ status: 0 });
-  },
-*/
   player: function(req, res) {
     PlayersService.getPlayer(req.query.id, function(data) {
       res.json(data);

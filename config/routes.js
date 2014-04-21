@@ -35,7 +35,7 @@ module.exports.routes = {
   '/servers': { view: 'servers' },
   '/players': { view: 'players' },
   '/server': { view: 'server' },
-  '/player': { view: 'player' },
+  '/profile': { view: 'player' },
   '/404': { view: '404' },
 
   'dashboard/GlobalSubscribe' : { controller: 'dashboard', action: 'globalSubscribe'},

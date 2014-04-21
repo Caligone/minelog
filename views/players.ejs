@@ -26,7 +26,7 @@
         </thead>
         <tbody>
             <tr class="animate" ng-repeat="player in players | filter:{ pseudo: selected }">
-                <td><a href="/#/player/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
+                <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
                 <td ng-if="player.online"><span class="label label-success">En ligne</span></td>
                 <td ng-if="!player.online"><span class="label label-danger">Hors ligne</span></td>
                 <td><em>{{player.avgRatio}}<em></td>
