@@ -1,316 +1,6 @@
 (function () {
     "use strict";
-    angular.module("app.chart.ctrls", []);
-}).call(this),
-function () {
-    "use strict";
-    angular.module("app.chart.directives", []).directive("gaugeChart", [
-        function () {
-            return {
-                restrict: "A",
-                scope: {
-                    data: "=",
-                    options: "="
-                },
-                link: function (scope, ele) {
-                    var data, gauge, options;
-                    return data = scope.data, options = scope.options, gauge = new Gauge(ele[0]).setOptions(options), gauge.maxValue = data.maxValue, gauge.animationSpeed = data.animationSpeed, gauge.set(data.val);
-                }
-            };
-        }
-    ]).directive("flotChart", [
-        function () {
-            return {
-                restrict: "A",
-                scope: {
-                    data: "=",
-                    options: "="
-                },
-                link: function (scope, ele) {
-                    var data, options, plot;
-                    return data = scope.data, options = scope.options, plot = $.plot(ele[0], data, options);
-                }
-            };
-        }
-    ]).directive("flotChartRealtime", [
-        function () {
-            return {
-                restrict: "A",
-                link: function (scope, ele) {
-                    var data, getRandomData, plot, totalPoints, update, updateInterval;
-                    return data = [], totalPoints = 300, getRandomData = function () {
-                        var i, prev, res, y;
-                        for (data.length > 0 && (data = data.slice(1)); data.length < totalPoints;) prev = data.length > 0 ? data[data.length - 1] : 50, y = prev + 10 * Math.random() - 5, 0 > y ? y = 0 : y > 100 && (y = 100), data.push(y);
-                        for (res = [], i = 0; i < data.length;) res.push([i, data[i]]), ++i;
-                        return res;
-                    }, update = function () {
-                        plot.setData([getRandomData()]), plot.draw(), setTimeout(update, updateInterval);
-                    }, data = [], totalPoints = 300, updateInterval = 200, plot = $.plot(ele[0], [getRandomData()], {
-                        series: {
-                            lines: {
-                                show: !0,
-                                fill: !0
-                            },
-                            shadowSize: 0
-                        },
-                        yaxis: {
-                            min: 0,
-                            max: 100
-                        },
-                        xaxis: {
-                            show: !1
-                        },
-                        grid: {
-                            hoverable: !0,
-                            borderWidth: 1,
-                            borderColor: "#eeeeee"
-                        },
-                        colors: ["#5BC0C4"]
-                    }), update();
-                }
-            };
-        }
-    ]).directive("sparkline", [
-        function () {
-            return {
-                restrict: "A",
-                scope: {
-                    data: "=",
-                    options: "="
-                },
-                link: function (scope, ele) {
-                    var data, options, sparkResize, sparklineDraw;
-                    return data = scope.data, options = scope.options, sparkResize = void 0, sparklineDraw = function () {
-                        return ele.sparkline(data, options);
-                    }, $(window).resize(function () {
-                        return clearTimeout(sparkResize), sparkResize = setTimeout(sparklineDraw, 200);
-                    }), sparklineDraw();
-                }
-            };
-        }
-    ]).directive("morrisChart", [
-        function () {
-            return {
-                restrict: "A",
-                scope: {
-                    data: "="
-                },
-                link: function (scope, ele, attrs) {
-                    var colors, data, func, options;
-                    switch (data = scope.data, attrs.type) {
-                    case "line":
-                        return colors = void 0 === attrs.lineColors || "" === attrs.lineColors ? null : JSON.parse(attrs.lineColors), options = {
-                            element: ele[0],
-                            data: data,
-                            xkey: attrs.xkey,
-                            ykeys: JSON.parse(attrs.ykeys),
-                            labels: JSON.parse(attrs.labels),
-                            lineWidth: attrs.lineWidth || 2,
-                            lineColors: colors || ["#0b62a4", "#7a92a3", "#4da74d", "#afd8f8", "#edc240", "#cb4b4b", "#9440ed"],
-                            resize: !0
-                        }, new Morris.Line(options);
-                    case "area":
-                        return colors = void 0 === attrs.lineColors || "" === attrs.lineColors ? null : JSON.parse(attrs.lineColors), options = {
-                            element: ele[0],
-                            data: data,
-                            xkey: attrs.xkey,
-                            ykeys: JSON.parse(attrs.ykeys),
-                            labels: JSON.parse(attrs.labels),
-                            lineWidth: attrs.lineWidth || 2,
-                            lineColors: colors || ["#0b62a4", "#7a92a3", "#4da74d", "#afd8f8", "#edc240", "#cb4b4b", "#9440ed"],
-                            behaveLikeLine: attrs.behaveLikeLine || !1,
-                            fillOpacity: attrs.fillOpacity || "auto",
-                            pointSize: attrs.pointSize || 4,
-                            resize: !0
-                        }, new Morris.Area(options);
-                    case "bar":
-                        return colors = void 0 === attrs.barColors || "" === attrs.barColors ? null : JSON.parse(attrs.barColors), options = {
-                            element: ele[0],
-                            data: data,
-                            xkey: attrs.xkey,
-                            ykeys: JSON.parse(attrs.ykeys),
-                            labels: JSON.parse(attrs.labels),
-                            barColors: colors || ["#0b62a4", "#7a92a3", "#4da74d", "#afd8f8", "#edc240", "#cb4b4b", "#9440ed"],
-                            stacked: attrs.stacked || null,
-                            resize: !0
-                        }, new Morris.Bar(options);
-                    case "donut":
-                        return colors = void 0 === attrs.colors || "" === attrs.colors ? null : JSON.parse(attrs.colors), options = {
-                            element: ele[0],
-                            data: data,
-                            colors: colors || ["#0B62A4", "#3980B5", "#679DC6", "#95BBD7", "#B0CCE1", "#095791", "#095085", "#083E67", "#052C48", "#042135"],
-                            resize: !0
-                        }, attrs.formatter && (func = new Function("y", "data", attrs.formatter), options.formatter = func), new Morris.Donut(options)
-                    }
-                }
-            }
-        }
-    ])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app.ui.form.ctrls", []);
-}.call(this),
-function () {
-    angular.module("app.ui.form.directives", []).directive("uiRangeSlider", [
-        function () {
-            return {
-                restrict: "A",
-                link: function (scope, ele) {
-                    return ele.slider()
-                }
-            }
-        }
-    ]).directive("uiFileUpload", [
-        function () {
-            return {
-                restrict: "A",
-                link: function (scope, ele) {
-                    return ele.bootstrapFileInput()
-                }
-            }
-        }
-    ]).directive("uiSpinner", [
-        function () {
-            return {
-                restrict: "A",
-                compile: function (ele) {
-                    return ele.addClass("ui-spinner"), {
-                        post: function () {
-                            return ele.spinner()
-                        }
-                    }
-                }
-            }
-        }
-    ]).directive("uiWizardForm", [
-        function () {
-            return {
-                link: function (scope, ele) {
-                    return ele.steps()
-                }
-            }
-        }
-    ])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app.form.validation", []).directive("validateEquals", [
-        function () {
-            return {
-                require: "ngModel",
-                link: function (scope, ele, attrs, ngModelCtrl) {
-                    var validateEqual;
-                    return validateEqual = function (value) {
-                        var valid;
-                        return valid = value === scope.$eval(attrs.validateEquals), ngModelCtrl.$setValidity("equal", valid), "function" == typeof valid ? valid({
-                            value: void 0
-                        }) : void 0
-                    }, ngModelCtrl.$parsers.push(validateEqual), ngModelCtrl.$formatters.push(validateEqual), scope.$watch(attrs.validateEquals, function (newValue, oldValue) {
-                        return newValue !== oldValue ? ngModelCtrl.$setViewValue(ngModelCtrl.$ViewValue) : void 0
-                    })
-                }
-            }
-        }
-    ])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app.tables", [])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app.task", []).factory("taskStorage", function () {
-        var DEMO_TASKS, STORAGE_ID;
-        return STORAGE_ID = "tasks", DEMO_TASKS = '[ {"title": "Finish homework", "completed": true}, {"title": "Make a call", "completed": true}, {"title": "Play games with friends", "completed": false}, {"title": "Shopping", "completed": false} ]', {
-            get: function () {
-                return JSON.parse(localStorage.getItem(STORAGE_ID) || DEMO_TASKS)
-            },
-            put: function (tasks) {
-                return localStorage.setItem(STORAGE_ID, JSON.stringify(tasks))
-            }
-        }
-    }).directive("taskFocus", ["$timeout",
-        function ($timeout) {
-            return {
-                link: function (scope, ele, attrs) {
-                    return scope.$watch(attrs.taskFocus, function (newVal) {
-                        return newVal ? $timeout(function () {
-                            return ele[0].focus()
-                        }, 0, !1) : void 0
-                    })
-                }
-            }
-        }
-    ])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app.ui.ctrls", [])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app.ui.directives", []).directive("uiTime", [
-        function () {
-            return {
-                restrict: "A",
-                link: function (scope, ele) {
-                    var checkTime, startTime;
-                    return startTime = function () {
-                        var h, m, s, t, time, today;
-                        return today = new Date, h = today.getHours(), m = today.getMinutes(), s = today.getSeconds(), m = checkTime(m), s = checkTime(s), time = h + ":" + m + ":" + s, ele(time), t = setTimeout(startTime, 500)
-                    }, checkTime = function (i) {
-                        return 10 > i && (i = "0" + i), i
-                    }, startTime()
-                }
-            }
-        }
-    ]).directive("uiWeather", [
-        function () {
-            return {
-                restrict: "A",
-                link: function (scope, ele, attrs) {
-                    var color, icon, skycons;
-                    return color = attrs.color, icon = Skycons[attrs.icon], skycons = new Skycons({
-                        color: color,
-                        resizeClear: !0
-                    }), skycons.add(ele[0], icon), skycons.play()
-                }
-            }
-        }
-    ])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app.ui.services", []).factory("logger", [
-        function () {
-            var logIt;
-            return toastr.options = {
-                closeButton: !0,
-                positionClass: "toast-bottom-right",
-                timeOut: "3000"
-            }, logIt = function (message, type) {
-                return toastr[type](message)
-            }, {
-                log: function (message) {
-                    logIt(message, "info")
-                },
-                logWarning: function (message) {
-                    logIt(message, "warning")
-                },
-                logSuccess: function (message) {
-                    logIt(message, "success")
-                },
-                logError: function (message) {
-                    logIt(message, "error")
-                }
-            }
-        }
-    ])
-}.call(this),
-function () {
-    "use strict";
-    angular.module("app", ["ngRoute", "ngAnimate", "ui.bootstrap", "easypiechart", "mgo-angular-wizard", "textAngular", "app.ui.ctrls", "app.ui.directives", "app.ui.services", "app.controllers", "app.directives", "app.form.validation", "app.ui.form.ctrls", "app.ui.form.directives", "app.tables", "app.task", "app.localization", "app.chart.ctrls", "app.chart.directives"])
+    angular.module("app", ["ngRoute", "ngAnimate", "ui.bootstrap", "app.controllers", "app.directives", "app.localization"])
     .config(["$routeProvider",
         function ($routeProvider) {
             return $routeProvider.when("/", {
@@ -331,6 +21,8 @@ function () {
                 templateUrl: "server"
             }).when("/404", {
                 templateUrl: "404"
+            }).when("/500", {
+                templateUrl: "500"
             }).otherwise({
                 redirectTo: "404"
             })
@@ -338,18 +30,7 @@ function () {
     ])
 }.call(this),
 function () {
-    angular.module("app.directives", []).directive("imgHolder", [
-        function () {
-            return {
-                restrict: "A",
-                link: function (scope, ele) {
-                    return Holder.run({
-                        images: ele[0]
-                    })
-                }
-            }
-        }
-    ]).directive("customBackground", function () {
+    angular.module("app.directives", []).directive("customBackground", function () {
         return {
             restrict: "A",
             controller: ["$scope", "$element", "$location",
@@ -363,11 +44,7 @@ function () {
                             return $element.addClass("body-home");
                         case "/404":
                         case "/500":
-                        case "/pages/signin":
-                        case "/pages/signup":
                             return $element.addClass("body-special");
-                        case "/pages/lock-screen":
-                            return $element.addClass("body-special body-lock");
                         }
                     }, addBg($location.path()), $scope.$watch(path, function (newVal, oldVal) {
                         return newVal !== oldVal ? addBg($location.path()) : void 0
@@ -375,24 +52,7 @@ function () {
                 }
             ]
         }
-    }).directive("uiColorSwitch", [
-        function () {
-            return {
-                restrict: "A",
-                link: function (scope, ele) {
-                    return ele.find(".color-option").on("click", function (event) {
-                        var $this, hrefUrl, style;
-                        if ($this = $(this), hrefUrl = void 0, style = $this.data("style"), "loulou" === style) hrefUrl = "styles/main.css", $('link[href^="styles/main"]').attr("href", hrefUrl);
-                        else {
-                            if (!style) return !1;
-                            style = "-" + style, hrefUrl = "styles/main" + style + ".css", $('link[href^="styles/main"]').attr("href", hrefUrl)
-                        }
-                        return event.preventDefault()
-                    })
-                }
-            }
-        }
-    ]).directive("toggleMinNav", ["$rootScope",
+    }).directive("toggleMinNav", ["$rootScope",
         function ($rootScope) {
             return {
                 restrict: "A",
@@ -540,6 +200,21 @@ function () {
                 }
             }
         }
+    ]).controller("LangCtrl", ["$scope", "localize",
+        function ($scope, localize) {
+            localize.setLanguage('EN-US');
+            return $scope.lang = "English", $scope.setLang = function (lang) {
+                switch (lang) {
+                    case "English":
+                        localize.setLanguage("EN-US");
+                        break;
+                    case "Français":
+                        localize.setLanguage("FR-FR");
+                        break;
+                }
+                return $scope.lang = lang;
+            };
+        }
     ])
 }.call(this),
 function () {
@@ -549,19 +224,14 @@ function () {
         function ($scope, $location) {
             return $scope.isSpecificPage = function () {
                 var path;
-                return path = $location.path(), _.contains(["/404", "/500", "/pages/login", "/pages/signin", "/pages/signin1", "/pages/signin2", "/pages/signup", "/pages/signup1", "/pages/signup2", "/pages/lock-screen"], path)
+                return path = $location.path(), _.contains(["/404", "/500"], path)
             }, $scope.main = {
-                brand: "Minelog"
-            }
+                brand: "MineLog"
+            };
         }
-    ]).controller("NavCtrl", ["$scope", "taskStorage", "filterFilter",
-        function ($scope, taskStorage, filterFilter) {
-            var tasks;
-            return tasks = $scope.tasks = taskStorage.get(), $scope.taskRemainingCount = filterFilter(tasks, {
-                completed: !1
-            }).length, $scope.$on("taskRemaining:changed", function (event, count) {
-                return $scope.taskRemainingCount = count
-            })
+    ]).controller("NavCtrl", ["$scope", "filterFilter",
+        function ($scope, filterFilter) {
+
         }
     ]).factory('socket', function ($rootScope) {
       var socket = io.socket;
@@ -713,10 +383,13 @@ function () {
         $scope.$on('$destroy', function(){
             unsubscribe();
         });
-    }]).controller("PlayerCtrl", ["$scope", "$http", "socket", "$routeParams", function($scope, $http, socket, $routeParams) {
+    }]).controller("PlayerCtrl", ["$scope", "$http", "socket", "$routeParams", "$location", function($scope, $http, socket, $routeParams, $location) {
         $http({method: 'GET', url: '/player/player?id='+$routeParams.id }).success(function(player) {
+            if(player === '0') {
+                $location.path("500");
+            }
             $scope.player = player;
             console.log(player);
         });
     }])
-}.call(this);
+}).call(this);

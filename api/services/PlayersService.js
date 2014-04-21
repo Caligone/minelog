@@ -29,6 +29,7 @@ exports.getPlayers = function(callback) {
 
 exports.getPlayer = function(id, callback) {
    Player.find().where({id: id}).limit(1).populate('stats').populate('servers').exec(function(err, players) {
+    if(players.length > 0) {
       var player = players[0];
       var avgRatio = 0, nbRatio = 0;
       for(stat in player.stats) {
@@ -40,5 +41,9 @@ exports.getPlayer = function(id, callback) {
       avgRatio /= nbRatio;
       avgRatio = avgRatio.toFixed(2);
       callback(player);
+    }
+    else {
+      callback(0);
+    }
     });
 };

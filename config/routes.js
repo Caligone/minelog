@@ -37,6 +37,7 @@ module.exports.routes = {
   '/server': { view: 'server' },
   '/profile': { view: 'player' },
   '/404': { view: '404' },
+  '/500': { view: '500' },
 
   'dashboard/GlobalSubscribe' : { controller: 'dashboard', action: 'globalSubscribe'},
   'dashboard/GlobalUnsubscribe' : { controller: 'dashboard', action: 'globalUnsubscribe'},
