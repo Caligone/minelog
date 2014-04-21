@@ -11,6 +11,7 @@
     "victims": "Victims",
     "mined-blocks": "Mined blocks",
     "top-servers": "Top Servers",
+    "top-players": "Top Players",
     "name": "Name",
     "status": "Status",
     "players": "Players",
@@ -20,14 +21,15 @@
     "ratio": "Ratio",
     "score": "Score",
     "search-a-server": "Search a server",
-    "search" : "Search",
+    "search": "Search",
     "search-a-player": "Search a player",
     "404-message": "Cube not found",
     "500-message": "Minelog seems broken... What have you done? :(",
-    "back-to-minelog" : "Get back to Minelog",
-    "title" : "Title",
-    "send-feedback" : "Send your feedback",
-    "relevant-title" : "A relevant title helps us to process your demand faster.",
+    "back-to-minelog": "Get back to Minelog",
+    "title": "Title",
+    "send-feedback": "Send your feedback",
+    "relevant-title": "A relevant title helps us to process your demand faster.",
+    "servers-played": "Servers played",
 
 
     "empty": ""

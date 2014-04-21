@@ -11,6 +11,7 @@
     "victims": "Victimes",
     "mined-blocks": "Blocs minés",
     "top-servers": "Top Serveurs",
+    "top-players": "Top Joueurs",
     "name": "Nom",
     "status": "Statut",
     "players": "Joueurs",
@@ -28,6 +29,7 @@
     "title" : "Titre",
     "send-feedback" : "Envoyer votre avis",
     "relevant-title" : "Un titre pertinent aidera au traitement de votre message.",
+    "servers-played": "Serveurs visités",
 
 
     "empty": ""

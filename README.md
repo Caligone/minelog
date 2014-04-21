@@ -25,6 +25,11 @@ sails lift
 To ensure everything run smoothly, have a try at **http://127.0.0.1:1337/User/create?pseudo=user1**
 You are good to go!
 
+### Fixtures ###
+
+To populate the database : ``` /Fixtures/populate ```
+
+
 ## Plugin API methods
 
 The followings methods are used by the Bukkit plugin :
@@ -49,6 +54,7 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
+- Improve Fixture Calculate method
 - Player profile page
 - Server page
 - Write FAQ page
