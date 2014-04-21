@@ -49,10 +49,13 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
-* Auto API broadcasting
-* Implement Skin creation
-* Player profile page
-* Server page
-* Localization
-* Write FAQ page
-* Mail system for feedback
+- Player profile page
+- Server page
+- Write FAQ page
+- Auto API broadcasting
+- Mail system for feedback
+
+## Done
+
+- Implement Skin creation (ovski ws)
+- Internationalization
