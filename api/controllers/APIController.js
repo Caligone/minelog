@@ -47,20 +47,20 @@ var checkServer = function(req, res, key, callback) {
 
 // Check the player from the pseudo field
 var checkPlayer = function(req, res, pseudo, server, callback) {
-  User.find({ pseudo: pseudo }).populate('servers').populate('stats').exec(function(err, users) {
+  Player.find({ pseudo: pseudo }).populate('servers').populate('stats').exec(function(err, players) {
     // "Handle" problems
     if (err) { return res.send(err, 500); }
 
-    // User does not exist and need to be create
-    if(users.length <= 0) {
-      User.create({ pseudo: pseudo }).exec(function(err, user) {
+    // Player does not exist and need to be create
+    if(players.length <= 0) {
+      Player.create({ pseudo: pseudo }).exec(function(err, player) {
         if(err) {
-          res.json({ status: -1, message: "User could not be create", err: err });
+          res.json({ status: -1, message: "Player could not be create", err: err });
         }
         else {
-          user.servers.add(server.id);
-          user.save(function() {
-            UserStat.create({user: user.id, server: server.id}).exec(function(err, stat) {
+          player.servers.add(server.id);
+          player.save(function() {
+            PlayerStat.create({player: player.id, server: server.id}).exec(function(err, stat) {
               checkPlayer(req, res, pseudo, server, callback);
             });
           });
@@ -68,39 +68,39 @@ var checkPlayer = function(req, res, pseudo, server, callback) {
       });
     }
     else {
-      // Multiple users found (???)
-      if(users.length != 1) {
-        res.json({ status: -1, message: "User unicity trouble" });
+      // Multiple players found (???)
+      if(players.length != 1) {
+        res.json({ status: -1, message: "Player unicity trouble" });
       }
-      // Update User
+      // Update Player
       else {
-        var user = users[0];
+        var player = players[0];
 
-        // Check if the player already played on this server (user have server)
+        // Check if the player already played on this server (player have server)
         var insertServer = true;
-        for (var i = user.servers.length - 1; i >= 0 && insertServer ; i--) {
-          if(user.servers[i].id === server.id) {
+        for (var i = player.servers.length - 1; i >= 0 && insertServer ; i--) {
+          if(player.servers[i].id === server.id) {
             insertServer = false;
           }
         };
         if(insertServer) {
-          user.servers.add(server.id);
+          player.servers.add(server.id);
         }
-        user.lastLogin = new Date().toISOString();
-        user.save(function(err)
+        player.lastLogin = new Date().toISOString();
+        player.save(function(err)
         {
           if(err) {
-            res.json({ status: -1, message: "User could not be updated", err: err });
+            res.json({ status: -1, message: "Player could not be updated", err: err });
           }
           else {
-            // Create UserStats if necessary
+            // Create PlayerStats if necessary
             if(insertServer) {
-              UserStat.create({user: user.id, server: server.id}).exec(function(err, stat) {
-                callback(req, res, user);
+              PlayerStat.create({player: player.id, server: server.id}).exec(function(err, stat) {
+                callback(req, res, player);
               });
             }
             else {
-              callback(req, res, user);
+              callback(req, res, player);
             }
           }
         });
@@ -183,14 +183,14 @@ module.exports = {
     checkServer(req, res, req.query.key, function(req, res, server) {
       server.onlinePlayers = (++server.onlinePlayers > server.size ? server.size : server.onlinePlayers);
       server.save(function(err) {
-        checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
-          user.online = true;
-          user.save(function(err) {
+        checkPlayer(req, res, req.query.pseudo, server, function(req, res, player) {
+          player.online = true;
+          player.save(function(err) {
             if(err) {
-              res.json({ status: -1, message: "User could not be updated", err: err });
+              res.json({ status: -1, message: "Player could not be updated", err: err });
             }
             else {
-              res.json({ status: 0, message: "User updated", user: user });
+              res.json({ status: 0, message: "Player updated", player: player });
             }
             DashboardService.getTopPlayers(function(data) {
               sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
@@ -215,20 +215,20 @@ module.exports = {
     checkServer(req, res, req.query.key, function(req, res, server) {
       server.onlinePlayers = (--server.onlinePlayers < 0 ? 0 : server.onlinePlayers);
       server.save(function(err) {
-        checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
-          user.online = false;
-          user.save(function(err) {
+        checkPlayer(req, res, req.query.pseudo, server, function(req, res, player) {
+          player.online = false;
+          player.save(function(err) {
             if(err) {
-              res.json({ status: -1, message: "User could not be updated", err: err });
+              res.json({ status: -1, message: "Player could not be updated", err: err });
             }
             else {
-              for(statKey in user.stats) {
-                if(user.stats[statKey].server !== undefined && user.stats[statKey].server !== server.id) {
-                  console.log("Remove "+user.stats[statKey].server);
-                  user.stats.remove(user.stats[statKey].id);
+              for(statKey in player.stats) {
+                if(player.stats[statKey].server !== undefined && player.stats[statKey].server !== server.id) {
+                  console.log("Remove "+player.stats[statKey].server);
+                  player.stats.remove(player.stats[statKey].id);
                 }
               }
-              res.json({ status: 0, message: "User updated", user: user });
+              res.json({ status: 0, message: "Player updated", player: player });
             }
             DashboardService.getTopPlayers(function(data) {
               sails.sockets.broadcast('topPlayersDashboardRoom', 'topPlayersDashboardUpdate', data);
@@ -294,11 +294,11 @@ module.exports = {
 
   updatePlayer: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, player) {
         var stats = null;
-        for (var i = user.stats.length - 1; i >= 0; i--) {
-          if(user.stats[i].server === server.id) {
-            stats = user.stats[i];
+        for (var i = player.stats.length - 1; i >= 0; i--) {
+          if(player.stats[i].server === server.id) {
+            stats = player.stats[i];
           }
         };
         if(req.query.verbosity) {
@@ -319,10 +319,10 @@ module.exports = {
 
         stats.save(function(err) {
           if(err) {
-            res.json({ status: -1, message: "User could not be updated", err: err });
+            res.json({ status: -1, message: "Player could not be updated", err: err });
           }
           else {
-            res.json({ status: 0, message: "User updated", user: user });
+            res.json({ status: 0, message: "Player updated", player: player });
           }
           DashboardService.getGlobalData(function(data) {
             sails.sockets.broadcast('globalDashboardRoom', 'globalDashboardUpdate', data);
@@ -341,8 +341,8 @@ module.exports = {
   // Handle getplayer
   player: function(req, res) {
     checkServer(req, res, req.query.key, function(req, res, server) {
-      checkPlayer(req, res, req.query.pseudo, server, function(req, res, user) {
-        res.json({ status: 0, message: "User updated", user: user });
+      checkPlayer(req, res, req.query.pseudo, server, function(req, res, player) {
+        res.json({ status: 0, message: "Player updated", player: player });
       })
     })
   },

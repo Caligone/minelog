@@ -13,10 +13,10 @@ module.exports = {
   attributes: {
 
    killed : {
-     model: 'user'
+     model: 'player'
    },
    killer : {
-     model: 'user'
+     model: 'player'
    },
    server : {
      model: 'server'

@@ -644,7 +644,7 @@ function () {
                 $scope.servers = data.servers;
             });
             socket.get('/dashboard/TopPlayersSubscribe', function(data) {
-                $scope.users = data.users;
+                $scope.players = data.players;
             });
         };
         var unsubscribe = function() {
@@ -661,7 +661,7 @@ function () {
         });
 
         socket.on('topPlayersDashboardUpdate', function(data) {
-            $scope.users = data.users;
+            $scope.players = data.players;
         });
 
         socket.on('topServersDashboardUpdate', function(data) {

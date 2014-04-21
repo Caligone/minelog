@@ -99,11 +99,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="user in users" class="animate" >
-                    <td><a href="/#/player/{{user.id}}" alt="{{user.pseudo}}">{{user.pseudo}}</a></td>
-                    <td ng-if="user.online"><span class="label label-success">En ligne</span></td>
-                    <td ng-if="!user.online"><span class="label label-danger">Hors ligne</span></td>
-                    <td><em>{{user.avgRatio}}<em></td>
+                <tr ng-repeat="player in players" class="animate" >
+                    <td><a href="/#/player/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
+                    <td ng-if="player.online"><span class="label label-success">En ligne</span></td>
+                    <td ng-if="!player.online"><span class="label label-danger">Hors ligne</span></td>
+                    <td><em>{{player.avgRatio}}<em></td>
                     <td><em>N/A (yet)<em></td>
                 </tr>
             </tbody>

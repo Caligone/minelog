@@ -1,5 +1,5 @@
 /**
- * User
+ * Player
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
@@ -35,15 +35,15 @@ module.exports = {
     },
     servers: {
       collection: 'server',
-      via: 'users',
+      via: 'players',
       dominant: true
     },
     skin: {
       model: 'skin'
     },
     stats: {
-      collection: 'userstat',
-      via: 'user'
+      collection: 'playerstat',
+      via: 'player'
     }
   }
 };

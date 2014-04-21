@@ -61,8 +61,8 @@ module.exports = {
       type: 'boolean',
       defaultsTo: true,
     },
-    users: {
-      collection: 'user',
+    players: {
+      collection: 'player',
       via: 'servers',
       dominant: true
     }

@@ -3,9 +3,9 @@
  *
  * Usage:
  * return res.notFound();
- * 
+ *
  * NOTE:
- * If no user-defined route, blueprint route, or static file matches
+ * If no player-defined route, blueprint route, or static file matches
  * the requested URL, Sails will call `res.notFound()`.
  */
 
@@ -22,7 +22,7 @@ module.exports = function notFound() {
     status: statusCode
   };
 
-  // If the user-agent wants a JSON response, send json
+  // If the player-agent wants a JSON response, send json
   if (req.wantsJSON) {
     return res.json(result, result.status);
   }

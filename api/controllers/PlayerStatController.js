@@ -1,5 +1,5 @@
 /**
- * UserStatController
+ * PlayerStatController
  *
  * @module      :: Controller
  * @description	:: A set of functions called `actions`.
@@ -16,15 +16,15 @@
  */
 
 module.exports = {
-    
-  
+
+
 
 
   /**
    * Overrides for the settings in `config/controllers.js`
-   * (specific to UserStatController)
+   * (specific to PlayerStatController)
    */
   _config: {}
 
-  
+
 };

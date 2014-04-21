@@ -11,8 +11,8 @@ module.exports = {
   schema: true,
 
   attributes: {
-    user: {
-      model: 'user'
+    player: {
+      model: 'player'
     },
     skin: {
       type: 'string',

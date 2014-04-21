@@ -10199,57 +10199,76 @@ button.toast-close-button {
   width: 100%;
 }
 
-.animate.ng-enter, .animate.ng-move {
-  -webkit-transition:0.5s linear all;
-  -moz-transition:0.5s linear all;
-  -o-transition:0.5s linear all;
-  transition:0.5s linear all;
-  opacity:0;
+.animate.ng-enter {
+    -webkit-animation: enter 600ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+    animation: enter 600ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+    display: block;
+    position: relative;
+}
+@-webkit-keyframes enter {
+    from {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    75% {
+        left: 15px;
+    }
+    to {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+    }
+}
+@keyframes enter {
+    from {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    75% {
+        left: 15px;
+    }
+    to {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+    }
 }
 
-/*
- The ng-enter-active and ng-move-active
- are where the transition destination properties
- are set so that the animation knows what to
- animate.
-*/
-.animate.ng-enter.ng-enter-active,
-.animate.ng-move.ng-move-active {
-  opacity:1;
-}
-
-/*
-  We're using CSS keyframe animations for when
-  the leave event is triggered for the element
-  that has the .animate class
-*/
 .animate.ng-leave {
-  -webkit-animation:0.5s my_animation;
-  -moz-animation:0.5s my_animation;
-  -o-animation:0.5s my_animation;
-  animation:0.5s my_animation;
+    -webkit-animation: leave 600ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+    animation: leave 600ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+    display: block;
+    position: relative;
 }
-
-@keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
+@-webkit-keyframes leave {
+    to {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    25% {
+        left: 15px;
+    }
+    from {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+    }
 }
-
-/*
-  Unfortunately each browser vendor requires
-  its own definition of keyframe animation code...
-*/
-@-webkit-keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
-}
-
-@-moz-keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
-}
-
-@-o-keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
+@keyframes leave {
+    to {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    25% {
+        left: 15px;
+    }
+    from {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+    }
 }

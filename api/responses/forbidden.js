@@ -3,7 +3,7 @@
  *
  * Usage:
  * return res.forbidden('Access denied.');
- * 
+ *
  * @param {String|Object|Array} message
  *      optional message to inject into view locals or JSON response
  *
@@ -28,7 +28,7 @@ module.exports = function forbidden(message) {
     result.message = message;
   }
 
-  // If the user-agent wants a JSON response, send json
+  // If the player-agent wants a JSON response, send json
   if (req.wantsJSON) {
     return res.json(result, result.status);
   }
