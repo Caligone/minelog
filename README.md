@@ -53,5 +53,6 @@ The followings methods are used by the Bukkit plugin :
 * Implement Skin creation
 * Player profile page
 * Server page
+* Localization
 * Write FAQ page
 * Mail system for feedback
