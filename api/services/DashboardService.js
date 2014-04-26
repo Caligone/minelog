@@ -1,5 +1,8 @@
 // DashboardService.js - in api/services
 exports.getGlobalData = function(callback) {
+  var obj = { status: 0, players: 0, servers: 0, kills: 0, blocks: 0};
+  callback(obj);
+  /*
   Player.count().exec(function(err, playerscount) {
     Server.count().exec(function(err, serverscount) {
       Kill.count().exec(function(err, killscount) {
@@ -16,6 +19,7 @@ exports.getGlobalData = function(callback) {
       });
     });
   });
+*/
 };
 
 exports.getTopServers = function(callback) {
