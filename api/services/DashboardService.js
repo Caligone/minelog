@@ -25,19 +25,12 @@ exports.getTopServers = function(callback) {
 };
 
 exports.getTopPlayers = function(callback) {
-   Player.find().limit(5).populate('stats').exec(function(err, players) {
-      for(player in players) {
-        var avgRatio = 0, nbRatio = 0;
-        for(stat in players[player].stats) {
-          if(!isNaN(parseInt(players[player].stats[stat].ratio))) {
-            avgRatio += players[player].stats[stat].ratio;
-            nbRatio++;
-          }
-        }
-        avgRatio /= nbRatio;
-        avgRatio = avgRatio.toFixed(2);
-        players[player].avgRatio = avgRatio;
-      }
+   PlayerStat.find().groupBy('player')
+                    .average('ratio')
+                    .sort({ratio: 'desc'})
+                    .limit(5)
+                    .exec(function(err, players) {
+      console.log(players);
       callback({ status: 0, players: players });
     });
 }

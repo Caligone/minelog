@@ -54,7 +54,7 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
-- Improve Fixture Calculate method
+- Improve Fixture Calculate method (Trigger)
 - Player profile page
 - Server page
 - Write FAQ page

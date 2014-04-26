@@ -244,24 +244,6 @@ module.exports = {
               res.json({ status: -1, message: "Kill could not be created", err: err });
             }
             else {
-              var stats = null;
-              for (var i = killer.stats.length - 1; i >= 0; i--) {
-                if(killer.stats[i].server === server.id) {
-                  stats = killer.stats[i];
-                }
-              };
-              stats.kills++;
-              stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : stats.pvpDeaths);
-              stats.save();
-              stats = null;
-              for (var i = killed.stats.length - 1; i >= 0; i--) {
-                if(killed.stats[i].server === server.id) {
-                  stats = killed.stats[i];
-                }
-              };
-              stats.pvpDeaths++;
-              stats.ratio = stats.kills/(stats.pvpDeaths === 0 ? 1 : stats.pvpDeaths);
-              stats.save();
               res.json({ status: 0, message: "Kill added", kill: kill });
               DashboardService.getGlobalData(function(data) {
                 sails.sockets.broadcast('globalDashboardRoom', 'globalDashboardUpdate', data);
