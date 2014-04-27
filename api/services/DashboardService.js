@@ -25,12 +25,11 @@ exports.getTopServers = function(callback) {
 };
 
 exports.getTopPlayers = function(callback) {
-   PlayerStat.find().groupBy('player')
-                    .average('ratio')
-                    .sort({ratio: 'desc'})
-                    .limit(5)
-                    .exec(function(err, players) {
-      console.log(players);
-      callback({ status: 0, players: players });
+  var query = "SELECT pseudo, online status, round(CAST(avg(ratio) as numeric), 2) avgratio, 0 score FROM player p, playerstat ps WHERE p.id = ps.player GROUP BY p.pseudo, p.online ORDER BY avgratio desc LIMIT 5";
+   PlayerStat.query(query, function(err, players) {
+      if(err) { console.log(err) }
+      else {
+        callback({ status: 0, players: players.rows });
+      }
     });
 }

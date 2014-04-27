@@ -27,9 +27,11 @@ module.exports.connections = {
   // npm install sails-mongo
   //
   production: {
-    adapter   : 'sails-mongo',
+    adapter   : 'sails-postgresql',
     host      : 'localhost',
-    port      : 27017,
+    port      : 5432,
+    user      : 'minelog',
+    password  : 'barbecue@',
     database  : 'minelog'
   },
 

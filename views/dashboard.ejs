@@ -97,10 +97,10 @@
             <tbody>
                 <tr ng-repeat="player in players" class="animate" >
                     <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
-                    <td ng-if="player.online"><span class="label label-success" data-i18n="online"></span></td>
-                    <td ng-if="!player.online"><span class="label label-danger" data-i18n="offline"></span></td>
-                    <td><em>{{player.avgRatio}}<em></td>
-                    <td><em>N/A (yet)<em></td>
+                    <td ng-if="player.status"><span class="label label-success" data-i18n="online"></span></td>
+                    <td ng-if="!player.status"><span class="label label-danger" data-i18n="offline"></span></td>
+                    <td><em>{{player.avgratio}}<em></td>
+                    <td><em>{{player.score}}<em></td>
                 </tr>
             </tbody>
         </table>

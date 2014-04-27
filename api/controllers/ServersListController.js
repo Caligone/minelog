@@ -5,7 +5,6 @@
 module.exports = {
 
   serversListSubscribe: function(req, res) {
-    console.log(req.socket.id+" subscribed to serversListRoom");
     sails.sockets.join(req.socket, 'serversListRoom');
     ServersService.getServers(function(data) {
       res.json(data);
@@ -13,7 +12,6 @@ module.exports = {
   },
 
   serversListUnsubscribe: function(req, res) {
-    console.log(req.socket.id+" unsubscribed to serversListRoom");
     sails.sockets.leave('serversListRoom');
     res.json({ status: 0 });
   },
