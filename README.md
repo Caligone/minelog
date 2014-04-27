@@ -57,10 +57,10 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
-- Improve animations
 - Optimize Server and Player Page (infinite scroll?)
 - Player profile page
 - Server profile page
+- Embed http://ricostacruz.com/nprogress/
 - Write FAQ page
 - Auto API broadcasting (?)
 - Mail system for feedback
@@ -68,6 +68,7 @@ The followings methods are used by the Bukkit plugin :
 - Loading box if necessary
 - Store language pref' into localstorage
 - Improve workflow (less/sass, bower, grunt, etc.)
+- Improve animations
 
 ## Done
 
