@@ -28,10 +28,10 @@ You are good to go!
 ### Fixtures ###
 
 To populate the database :
-1) Create an empty 'minelog' database and a user into PostgreSQL
-2) Execute the app.js file ``` node app.js ``` and close it when it has finished to create the schema
-3) Import the fixtures with ```  psql -f sql/data.sql -U minelog ```
-4) Launch again the app.js file and you are ready to dev' :)
+* 1) Create an empty 'minelog' database and a user into PostgreSQL
+* 2) Execute the app.js file ``` node app.js ``` and close it when it has finished to create the schema
+* 3) Import the fixtures with ```  psql -f sql/data.sql -U minelog ```
+* 4) Launch again the app.js file and you are ready to dev' :)
 
 ## Plugin API methods
 
@@ -57,12 +57,12 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
-- Rewrite every DB requests
+- Improve animations
 - Optimize Server and Player Page (infinite scroll?)
 - Player profile page
 - Server profile page
 - Write FAQ page
-- Auto API broadcasting
+- Auto API broadcasting (?)
 - Mail system for feedback
 - Realize correct fixtures
 - Loading box if necessary

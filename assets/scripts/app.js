@@ -230,9 +230,7 @@ function () {
             };
         }
     ]).controller("NavCtrl", ["$scope", "filterFilter",
-        function ($scope, filterFilter) {
-
-        }
+        function ($scope, filterFilter) {}
     ]).factory('socket', function ($rootScope) {
       var socket = io.socket;
       return {
@@ -306,48 +304,48 @@ function () {
         },
       };
     }).controller("DashboardCtrl", ["$scope", "socket", function($scope, socket) {
-        var subscribe = function() {
-            socket.get('/dashboard/GlobalSubscribe', function(counters) {
-                $scope.counters = counters;
-            });
-            socket.get('/dashboard/TopServersSubscribe', function(data) {
-                $scope.servers = data.servers;
-            });
-            socket.get('/dashboard/TopPlayersSubscribe', function(data) {
-                $scope.players = data.players;
-            });
-        };
-        var unsubscribe = function() {
-            socket.get('/dashboard/GlobalUnsubscribe', function(data) {});
-            socket.get('/dashboard/TopServersUnsubscribe', function(data) {});
-            socket.get('/dashboard/TopPlayersUnsubscribe', function(data) {});
-            socket.removeListener('globalDashboardUpdate');
-            socket.removeListener('topPlayersDashboardUpdate');
-            socket.removeListener('topServersDashboardUpdate');
-        };
-
-        socket.on('globalDashboardUpdate', function(data) {
-            $scope.counters = data;
+      var subscribe = function() {
+        socket.get('/dashboard/GlobalSubscribe', function(counters) {
+          $scope.counters = counters;
         });
-
-        socket.on('topPlayersDashboardUpdate', function(data) {
-            $scope.players = data.players;
+        socket.get('/dashboard/TopServersSubscribe', function(data) {
+          $scope.servers = data.servers;
         });
-
-        socket.on('topServersDashboardUpdate', function(data) {
-            $scope.servers = data.servers;
+        socket.get('/dashboard/TopPlayersSubscribe', function(data) {
+          $scope.players = data.players;
         });
+      };
+      var unsubscribe = function() {
+        socket.get('/dashboard/GlobalUnsubscribe', function(data) {});
+        socket.get('/dashboard/TopServersUnsubscribe', function(data) {});
+        socket.get('/dashboard/TopPlayersUnsubscribe', function(data) {});
+        socket.removeListener('globalDashboardUpdate');
+        socket.removeListener('topPlayersDashboardUpdate');
+        socket.removeListener('topServersDashboardUpdate');
+      };
 
-        subscribe();
-        $scope.$on('$destroy', function(){
-            unsubscribe();
-        });
+      socket.on('globalDashboardUpdate', function(data) {
+        $scope.counters = data;
+      });
+
+      socket.on('topPlayersDashboardUpdate', function(data) {
+        $scope.players = data.players;
+      });
+
+      socket.on('topServersDashboardUpdate', function(data) {
+        $scope.servers = data.servers;
+      });
+
+      subscribe();
+      $scope.$on('$destroy', function(){
+        unsubscribe();
+      });
       }
     ]).controller("ServersListCtrl", ["$scope", "$http", "socket", function($scope, $http, socket) {
         var subscribe = function() {
-            socket.get('/serversList/ServersListSubscribe', function(servers) {
-                $scope.servers = servers;
-            });
+          socket.get('/serversList/ServersListSubscribe', function(servers) {
+            $scope.servers = servers;
+          });
         }
         var unsubscribe = function() {
             socket.get('/serversList/ServersListUnsubscribe', function(data) {});
@@ -379,10 +377,20 @@ function () {
         socket.on('playersListUpdate', function(players) {
             $scope.players = players;
         });
+        $scope.loadMore = function() {
+          console.log("YEAH");
+          /*
+          var last = $scope.images[$scope.images.length - 1];
+          for(var i = 1; i <= 8; i++) {
+            $scope.images.push(last + i);
+          }
+          */
+        };
         subscribe();
         $scope.$on('$destroy', function(){
             unsubscribe();
         });
+
     }]).controller("PlayerCtrl", ["$scope", "$http", "socket", "$routeParams", "$location", function($scope, $http, socket, $routeParams, $location) {
         $http({method: 'GET', url: '/player/player?id='+$routeParams.id }).success(function(player) {
             if(player === '0') {

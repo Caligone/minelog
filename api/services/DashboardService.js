@@ -1,21 +1,9 @@
 // DashboardService.js - in api/services
 exports.getGlobalData = function(callback) {
-  Player.count().exec(function(err, playerscount) {
-    Server.count().exec(function(err, serverscount) {
-      Kill.count().exec(function(err, killscount) {
-        PlayerStat.find().sum('blocksBroken').exec(function(err, blockscount) {
-          if(!err && blockscount.length > 0) {
-            var obj = { status: 0, players: playerscount, servers: serverscount, kills: killscount, blocks: blockscount[0].blocksBroken};
-            callback(obj);
-          }
-          else {
-            var obj = { status: 0, players: playerscount, servers: serverscount, kills: killscount, blocks: 0};
-            callback(obj);
-          }
-        });
-      });
-    });
-  });
+  var query = 'SELECT max(g.kills) kills, max(g.players) players, max(g.servers) servers, max(g.blocks) blocks FROM (SELECT count(1) kills, 0  players, 0    servers, 0        blocks FROM kill UNION SELECT 0  kills, count(1) players, 0    servers, 0      blocks FROM player UNION SELECT 0  kills, 0  players, count(1) servers, 0      blocks FROM server UNION SELECT 0  kills, 0  players, 0    servers, sum("blocksBroken")  blocks FROM playerstat) g;'
+  PlayerStat.query(query, function(err, res) {
+    callback(res.rows[0]);
+  })
 };
 
 exports.getTopServers = function(callback) {

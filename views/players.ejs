@@ -25,7 +25,7 @@
                 <th data-i18n="score"></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody infinite-scroll-distance="3">
             <tr class="animate" ng-repeat="player in players | filter:{ pseudo: selected }">
                 <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
                 <td ng-if="player.online"><span class="label label-success" data-i18n="online"></span></td>
