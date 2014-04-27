@@ -64,6 +64,7 @@ The followings methods are used by the Bukkit plugin :
 - Realize correct fixtures
 - Loading box if necessary
 - Store language pref' into localstorage
+- Improve workflow (less/sass, bower, grunt, etc.)
 
 ## Done
 
