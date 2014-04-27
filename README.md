@@ -54,7 +54,7 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
-- Optimize Mongo requests used by TopPlayers and TopServers Dashboard section
+- Rewrite every DB requests
 - Optimize Server and Player Page (infinite scroll?)
 - Player profile page
 - Server profile page
