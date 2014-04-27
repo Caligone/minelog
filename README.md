@@ -54,12 +54,16 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
-- Improve Fixture Calculate method (Trigger)
+- Optimize Mongo requests used by TopPlayers and TopServers Dashboard section
+- Optimize Server and Player Page (infinite scroll?)
 - Player profile page
-- Server page
+- Server profile page
 - Write FAQ page
 - Auto API broadcasting
 - Mail system for feedback
+- Realize correct fixtures
+- Loading box if necessary
+- Store language pref' into localstorage
 
 ## Done
 
