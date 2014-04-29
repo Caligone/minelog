@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angular.module("app", ["ngRoute", "ngAnimate", "textAngular", "ui.bootstrap", "app.controllers", "app.directives", "app.localization"])
+    angular.module("app", ["ngRoute", "ngAnimate", "textAngular", "ui.bootstrap", "app.controllers", "app.directives", "app.localization", "app.ui.services"])
     .config(["$routeProvider",
         function ($routeProvider) {
             return $routeProvider.when("/", {
@@ -219,6 +219,34 @@ function () {
 }.call(this),
 function () {
     "use strict";
+    angular.module("app.ui.services", []).factory("logger", [
+        function () {
+            var logIt;
+            return toastr.options = {
+                closeButton: !0,
+                positionClass: "toast-bottom-right",
+                timeOut: "5000"
+            }, logIt = function (message, type) {
+                return toastr[type](message)
+            }, {
+                log: function (message) {
+                    logIt(message, "info")
+                },
+                logWarning: function (message) {
+                    logIt(message, "warning")
+                },
+                logSuccess: function (message) {
+                    logIt(message, "success")
+                },
+                logError: function (message) {
+                    logIt(message, "error")
+                }
+            }
+        }
+    ])
+}.call(this),
+function () {
+    "use strict";
     angular.module("app.controllers", ['ngAnimate'])
     .controller("AppCtrl", ["$scope", "$location",
         function ($scope, $location) {
@@ -303,7 +331,7 @@ function () {
           })
         },
       };
-    }).controller("DashboardCtrl", ["$scope", "socket", function($scope, socket) {
+    }).controller("DashboardCtrl", ["$scope", "socket", "logger", "localize", function($scope, socket, logger, localize) {
       var subscribe = function() {
         socket.get('/dashboard/GlobalSubscribe', function(counters) {
           $scope.counters = counters;
@@ -336,6 +364,7 @@ function () {
         $scope.servers = data.servers;
       });
 
+      logger.logWarning("Minelog is currently in beta. Report bug and help us to make something awesome !");
       subscribe();
       $scope.$on('$destroy', function(){
         unsubscribe();
@@ -391,12 +420,15 @@ function () {
             unsubscribe();
         });
 
-    }]).controller("PlayerCtrl", ["$scope", "$http", "socket", "$routeParams", "$location", function($scope, $http, socket, $routeParams, $location) {
+    }]).controller("PlayerCtrl", ["$scope", "$http", "socket", "$routeParams", "$location", "logger", "localize", function($scope, $http, socket, $routeParams, $location, logger, localize) {
         $http({method: 'GET', url: '/player/player?id='+$routeParams.id }).success(function(player) {
             if(player === '0') {
                 $location.path("500");
             }
             $scope.player = player;
+            if(player.online) {
+              logger.logSuccess(player.pseudo+" "+localize.getLocalizedString("player-online"));
+            }
             console.log(player);
         });
     }])

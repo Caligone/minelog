@@ -103,7 +103,7 @@
                             <i class="fa fa-hdd-o"></i>
                         </span>
                         <div class="box-info">
-                            <p class="size-h2">0<span class="size-h4"></span></p>
+                            <p class="size-h2">{{player.srv.length}}<span class="size-h4"></span></p>
                             <p class="text-muted"><span data-i18n="servers-played"></span></p>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                             <i class="fa fa-crosshairs"></i>
                         </span>
                         <div class="box-info">
-                            <p class="size-h2">0</p>
+                            <p class="size-h2">{{player.global.kills}}</p>
                             <p class="text-muted"><span data-i18n="victims"></span></p>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                             <i class="fa fa-square"></i>
                         </span>
                         <div class="box-info">
-                            <p class="size-h2">0</p>
+                            <p class="size-h2">{{player.global.blocksBroken}}</p>
                             <p class="text-muted"><span data-i18n="mined-blocks"></span></p>
                         </div>
                     </div>
