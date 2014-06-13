@@ -10199,6 +10199,7 @@ button.toast-close-button {
   width: 100%;
 }
 
+<<<<<<< HEAD
 .animate.ng-enter {
   display: block;
     animation-name: fadeInDown;
@@ -10241,4 +10242,10 @@ button.toast-close-button {
     opacity: 0;
     transform: translateY(20px);
   }
+.animate.ng-leave {
+  /* TODO */
+}
+
+.animate.ng-enter {
+  /* TODO */
 }

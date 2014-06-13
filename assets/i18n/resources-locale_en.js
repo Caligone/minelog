@@ -30,7 +30,8 @@
     "send-feedback": "Send your feedback",
     "relevant-title": "A relevant title helps us to process your demand faster.",
     "servers-played": "Servers played",
-
+    "player-online": "is currently online !",
+    "beta-warning": "Minelog is currently in beta. Report bug and help us to make something awesome !",
 
     "empty": ""
 }

@@ -18,7 +18,7 @@ module.exports = {
     server: {
         model: 'server'
      },
-     ratio: {
+     ratio: { // Updated after Kill create, after PlayerStat Update
        type: 'float',
        defaultsTo: 0
      },
@@ -42,11 +42,11 @@ module.exports = {
        type: 'integer',
        defaultsTo: 0
      },
-     kills: {
+     kills: { // Updated after Kill create
        type: 'integer',
        defaultsTo: 0
      },
-     pvpDeaths: {
+     pvpDeaths: { // Updated after Kill create
        type: 'integer',
        defaultsTo: 0
      },
@@ -54,6 +54,6 @@ module.exports = {
        type: 'integer',
        defaultsTo: 0
      }
-  }
+  },
 
 };

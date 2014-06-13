@@ -5,7 +5,6 @@
 module.exports = {
 
   globalSubscribe: function(req, res) {
-    console.log(req.socket.id+" subscribed to globalDashboardRoom");
     sails.sockets.join(req.socket, 'globalDashboardRoom');
     DashboardService.getGlobalData(function(data) {
       res.json(data);
@@ -13,13 +12,11 @@ module.exports = {
   },
 
   globalUnsubscribe: function(req, res) {
-    console.log(req.socket.id+" unsubscribed to globalDashboardRoom");
     sails.sockets.leave('globalDashboardRoom');
     res.json({ status: 0 });
   },
 
   topPlayersSubscribe: function(req, res) {
-    console.log(req.socket.id+" subscribed to topPlayersDashboardRoom");
     sails.sockets.join(req.socket, 'topPlayersDashboardRoom');
     DashboardService.getTopPlayers(function(data) {
       res.json(data);
@@ -27,13 +24,11 @@ module.exports = {
   },
 
   topPlayersUnsubscribe: function(req, res) {
-    console.log(req.socket.id+" unsubscribed to topPlayersDashboardRoom");
     sails.sockets.leave('topPlayersDashboardRoom');
     res.json({ status: 0 });
   },
 
   topServersSubscribe: function(req, res) {
-    console.log(req.socket.id+" subscribed to topServersDashboardRoom");
     sails.sockets.join(req.socket, 'topServersDashboardRoom');
     DashboardService.getTopServers(function(data) {
       res.json(data);
@@ -41,7 +36,6 @@ module.exports = {
   },
 
   topServersUnsubscribe: function(req, res) {
-    console.log(req.socket.id+" unsubscribed to topServersDashboardRoom");
     sails.sockets.leave('topServersDashboardRoom');
     res.json({ status: 0 });
   },

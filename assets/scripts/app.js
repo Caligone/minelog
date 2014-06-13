@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angular.module("app", ["ngRoute", "ngAnimate", "textAngular", "ui.bootstrap", "app.controllers", "app.directives", "app.localization"])
+    angular.module("app", ["ngRoute", "ngAnimate", "textAngular", "ui.bootstrap", "app.controllers", "app.directives", "app.localization", "app.ui.services"])
     .config(["$routeProvider",
         function ($routeProvider) {
             return $routeProvider.when("/", {
@@ -219,6 +219,34 @@ function () {
 }.call(this),
 function () {
     "use strict";
+    angular.module("app.ui.services", []).factory("logger", [
+        function () {
+            var logIt;
+            return toastr.options = {
+                closeButton: !0,
+                positionClass: "toast-bottom-right",
+                timeOut: "5000"
+            }, logIt = function (message, type) {
+                return toastr[type](message)
+            }, {
+                log: function (message) {
+                    logIt(message, "info")
+                },
+                logWarning: function (message) {
+                    logIt(message, "warning")
+                },
+                logSuccess: function (message) {
+                    logIt(message, "success")
+                },
+                logError: function (message) {
+                    logIt(message, "error")
+                }
+            }
+        }
+    ])
+}.call(this),
+function () {
+    "use strict";
     angular.module("app.controllers", ['ngAnimate'])
     .controller("AppCtrl", ["$scope", "$location",
         function ($scope, $location) {
@@ -230,9 +258,7 @@ function () {
             };
         }
     ]).controller("NavCtrl", ["$scope", "filterFilter",
-        function ($scope, filterFilter) {
-
-        }
+        function ($scope, filterFilter) {}
     ]).factory('socket', function ($rootScope) {
       var socket = io.socket;
       return {
@@ -305,49 +331,50 @@ function () {
           })
         },
       };
-    }).controller("DashboardCtrl", ["$scope", "socket", function($scope, socket) {
-        var subscribe = function() {
-            socket.get('/dashboard/GlobalSubscribe', function(counters) {
-                $scope.counters = counters;
-            });
-            socket.get('/dashboard/TopServersSubscribe', function(data) {
-                $scope.servers = data.servers;
-            });
-            socket.get('/dashboard/TopPlayersSubscribe', function(data) {
-                $scope.players = data.players;
-            });
-        };
-        var unsubscribe = function() {
-            socket.get('/dashboard/GlobalUnsubscribe', function(data) {});
-            socket.get('/dashboard/TopServersUnsubscribe', function(data) {});
-            socket.get('/dashboard/TopPlayersUnsubscribe', function(data) {});
-            socket.removeListener('globalDashboardUpdate');
-            socket.removeListener('topPlayersDashboardUpdate');
-            socket.removeListener('topServersDashboardUpdate');
-        };
-
-        socket.on('globalDashboardUpdate', function(data) {
-            $scope.counters = data;
+    }).controller("DashboardCtrl", ["$scope", "socket", "logger", "localize", function($scope, socket, logger, localize) {
+      var subscribe = function() {
+        socket.get('/dashboard/GlobalSubscribe', function(counters) {
+          $scope.counters = counters;
         });
-
-        socket.on('topPlayersDashboardUpdate', function(data) {
-            $scope.players = data.players;
+        socket.get('/dashboard/TopServersSubscribe', function(data) {
+          $scope.servers = data.servers;
         });
-
-        socket.on('topServersDashboardUpdate', function(data) {
-            $scope.servers = data.servers;
+        socket.get('/dashboard/TopPlayersSubscribe', function(data) {
+          $scope.players = data.players;
         });
+      };
+      var unsubscribe = function() {
+        socket.get('/dashboard/GlobalUnsubscribe', function(data) {});
+        socket.get('/dashboard/TopServersUnsubscribe', function(data) {});
+        socket.get('/dashboard/TopPlayersUnsubscribe', function(data) {});
+        socket.removeListener('globalDashboardUpdate');
+        socket.removeListener('topPlayersDashboardUpdate');
+        socket.removeListener('topServersDashboardUpdate');
+      };
 
-        subscribe();
-        $scope.$on('$destroy', function(){
-            unsubscribe();
-        });
+      socket.on('globalDashboardUpdate', function(data) {
+        $scope.counters = data;
+      });
+
+      socket.on('topPlayersDashboardUpdate', function(data) {
+        $scope.players = data.players;
+      });
+
+      socket.on('topServersDashboardUpdate', function(data) {
+        $scope.servers = data.servers;
+      });
+
+      logger.logWarning("Minelog is currently in beta. Report bug and help us to make something awesome !");
+      subscribe();
+      $scope.$on('$destroy', function(){
+        unsubscribe();
+      });
       }
     ]).controller("ServersListCtrl", ["$scope", "$http", "socket", function($scope, $http, socket) {
         var subscribe = function() {
-            socket.get('/serversList/ServersListSubscribe', function(servers) {
-                $scope.servers = servers;
-            });
+          socket.get('/serversList/ServersListSubscribe', function(servers) {
+            $scope.servers = servers;
+          });
         }
         var unsubscribe = function() {
             socket.get('/serversList/ServersListUnsubscribe', function(data) {});
@@ -379,16 +406,29 @@ function () {
         socket.on('playersListUpdate', function(players) {
             $scope.players = players;
         });
+        $scope.loadMore = function() {
+          console.log("YEAH");
+          /*
+          var last = $scope.images[$scope.images.length - 1];
+          for(var i = 1; i <= 8; i++) {
+            $scope.images.push(last + i);
+          }
+          */
+        };
         subscribe();
         $scope.$on('$destroy', function(){
             unsubscribe();
         });
-    }]).controller("PlayerCtrl", ["$scope", "$http", "socket", "$routeParams", "$location", function($scope, $http, socket, $routeParams, $location) {
+
+    }]).controller("PlayerCtrl", ["$scope", "$http", "socket", "$routeParams", "$location", "logger", "localize", function($scope, $http, socket, $routeParams, $location, logger, localize) {
         $http({method: 'GET', url: '/player/player?id='+$routeParams.id }).success(function(player) {
             if(player === '0') {
                 $location.path("500");
             }
             $scope.player = player;
+            if(player.online) {
+              logger.logSuccess(player.pseudo+" "+localize.getLocalizedString("player-online"));
+            }
             console.log(player);
         });
     }])
