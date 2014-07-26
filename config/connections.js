@@ -28,11 +28,14 @@ module.exports.connections = {
   //
   production: {
     adapter   : 'sails-postgresql',
-    host      : 'localhost',
-    port      : 5432,
-    user      : 'minelog',
-    password  : 'barbecue@',
-    database  : 'minelog'
+    host: process.env.PG_HOSTNAME || 'localhost',
+    user: process.env.PG_USER || 'root',
+    password: process.env.PG_PASSWORD || '',
+    database: process.env.PG_DATABASE || 'name_of_your_db',
+    port: process.env.PG_PORT || 5432,
+    ssl: {
+      rejectUnauthorized: false
+    }
   },
 
 
