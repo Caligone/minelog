@@ -28,14 +28,13 @@ module.exports.connections = {
   //
   production: {
     adapter   : 'sails-postgresql',
-    host: process.env.PG_HOSTNAME || 'localhost',
-    user: process.env.PG_USER || 'root',
-    password: process.env.PG_PASSWORD || '',
-    database: process.env.PG_DATABASE || 'name_of_your_db',
-    port: process.env.PG_PORT || 5432,
-    ssl: {
-      rejectUnauthorized: false
-    }
+    host      : 'ec2-54-195-241-195.eu-west-1.compute.amazonaws.com',
+    port      : 5432,
+    user      : 'xdxcvyytuzflzo',
+    password  : '2KZTHydauqeQwlQZctQzaSnFwN',
+    database  : 'dbfq872uk7o6q8',
+    ssl       : true,
+    schema    : true
   },
 
 
