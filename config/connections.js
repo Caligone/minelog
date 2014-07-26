@@ -28,11 +28,11 @@ module.exports.connections = {
   //
   production: {
     adapter   : 'sails-postgresql',
-    host      : 'ec2-54-195-241-195.eu-west-1.compute.amazonaws.com',
+    host      : 'ec2-54-225-101-124.compute-1.amazonaws.com',
     port      : 5432,
-    user      : 'xdxcvyytuzflzo',
-    password  : '2KZTHydauqeQwlQZctQzaSnFwN',
-    database  : 'dbfq872uk7o6q8',
+    user      : 'kbljgxmpjvysjs',
+    password  : 'csNYlY_UDRbv8ySr0Fmwlm1A5O',
+    database  : 'd1qpif0esunel',
     ssl       : true,
     schema    : true
   },
