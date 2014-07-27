@@ -64,13 +64,13 @@ The followings methods are used by the Bukkit plugin :
 - Write FAQ page
 - Auto API broadcasting (?)
 - Mail system for feedback
-- Realize correct fixtures
 - Loading box if necessary
 - Store language pref' into localstorage
-- Improve workflow (less/sass, bower, grunt, etc.)
 - Improve animations
 
 ## Done
 
+- Improve workflow (less/sass, bower, grunt, etc.)
+- Remove CoffeeScript from assets directory
 - Implement Skin creation (ovski ws)
 - Internationalization

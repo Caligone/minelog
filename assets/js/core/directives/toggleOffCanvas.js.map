@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "toggleOffCanvas.js",
+  "sourceRoot": "../../../../client/directives/",
+  "sources": [
+    "toggleOffCanvas.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA,OAAQ,CAAC,MAAT,CAAgB,YAAhB,CACQ,CAAC,SADT,CACmB,iBADnB,EACsC;EAAC,SAAA,GAAA;WAC7B;AAAA,MACE,QAAA,EAAU,GADZ;AAAA,MAEE,IAAA,EAAM,SAAC,KAAD,EAAQ,GAAR,GAAA;eACJ,GAAG,CAAC,EAAJ,CAAO,OAAP,EAAgB,SAAA,GAAA;iBACd,CAAA,CAAE,MAAF,CAAS,CAAC,WAAV,CAAsB,WAAtB,EADc;QAAA,CAAhB,EADI;MAAA,CAFR;MAD6B;EAAA,CAAD;CADtC,CAAA,CAAA"
+}

@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "ServerCtrl.js",
+  "sourceRoot": "../../../../client/controllers/",
+  "sources": [
+    "ServerCtrl.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA,OAAQ,CAAC,MAAT,CAAgB,YAAhB,CACE,CAAC,UADH,CACc,YADd,EAC4B,SAAC,MAAD,GAAA,CAD5B,CAAA,CAAA"
+}

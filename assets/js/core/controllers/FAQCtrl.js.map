@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "FAQCtrl.js",
+  "sourceRoot": "../../../../client/controllers/",
+  "sources": [
+    "FAQCtrl.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA,OAAQ,CAAC,MAAT,CAAgB,YAAhB,CACE,CAAC,UADH,CACc,SADd,EACyB,SAAC,MAAD,GAAA,CADzB,CAAA,CAAA"
+}

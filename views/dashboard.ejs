@@ -1,4 +1,4 @@
-<div class="page page-dashboard" data-ng-controller="DashboardCtrl">
+<div class="page page-dashboard">
 
     <div class="row">
       <div class="col-lg-3 col-xsm-6">
@@ -8,7 +8,7 @@
               </span>
               <div class="box-info">
                   <p class="size-h2">{{counters.players}}</p>
-                  <p class="text-muted"><span data-i18n="active-players"></span></p>
+                  <p class="text-muted"><span i18n="active-players"></span></p>
               </div>
           </div>
       </div>
@@ -19,7 +19,7 @@
                 </span>
                 <div class="box-info">
                     <p class="size-h2">{{counters.servers}}<span class="size-h4"></span></p>
-                    <p class="text-muted"><span data-i18n="active-servers"></span></p>
+                    <p class="text-muted"><span i18n="active-servers"></span></p>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 </span>
                 <div class="box-info">
                     <p class="size-h2">{{counters.kills}}</p>
-                    <p class="text-muted"><span data-i18n="victims"></span></p>
+                    <p class="text-muted"><span i18n="victims"></span></p>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 </span>
                 <div class="box-info">
                     <p class="size-h2">{{counters.blocks}}</p>
-                    <p class="text-muted"><span data-i18n="mined-blocks"></span></p>
+                    <p class="text-muted"><span i18n="mined-blocks"></span></p>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
     <div class="row">
       <section class="panel panel-box">
         <div class="panel-body">
-            <h2 data-i18n="pitch"></h3>
+            <h2 i18n="pitch"></h3>
             <p><em>Caligone</em></p>
         </div>
       </section>
@@ -59,21 +59,21 @@
 
     <div class="col-md-6">
       <div class="panel panel-default">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="top-servers"></span></strong></div>
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span i18n="top-servers"></span></strong></div>
         <table class="table">
             <thead>
                 <tr>
-                    <th data-i18n="name"></th>
-                    <th data-i18n="status"></th>
-                    <th data-i18n="players"></th>
+                    <th i18n="name"></th>
+                    <th i18n="status"></th>
+                    <th i18n="players"></th>
                 </tr>
             </thead>
             <tbody>
                 <tbody>
                 <tr ng-repeat="server in servers" class="animate" >
                     <td><a href="/#/server/{{server.id}}" alt="{{server.name}}">{{server.name}}</a></td>
-                    <td ng-if="server.online"><span class="label label-success" data-i18n="online"></span></td>
-                    <td ng-if="!server.online"><span class="label label-danger" data-i18n="offline"></span></td>
+                    <td ng-if="server.online"><span class="label label-success" i18n="online"></span></td>
+                    <td ng-if="!server.online"><span class="label label-danger" i18n="offline"></span></td>
                     <td><div class="server-capacity">{{server.onlinePlayers}}/{{server.size}}</div><progressbar class="progressbar-xs no-margin" ng-attr-value="server.onlinePlayers/server.size*100" type="success"></progressbar></td>
                 </tr>
             </tbody>
@@ -84,21 +84,21 @@
 
     <div class="col-md-6">
       <div class="panel panel-default">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="top-players"></span></strong></div>
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span i18n="top-players"></span></strong></div>
         <table class="table">
             <thead>
                 <tr>
-                    <th data-i18n="pseudo"></th>
-                    <th data-i18n="status"></th>
-                    <th data-i18n="ratio"></th>
-                    <th data-i18n="score"></th>
+                    <th i18n="pseudo"></th>
+                    <th i18n="status"></th>
+                    <th i18n="ratio"></th>
+                    <th i18n="score"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="player in players" class="animate" >
                     <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
-                    <td ng-if="player.status"><span class="label label-success" data-i18n="online"></span></td>
-                    <td ng-if="!player.status"><span class="label label-danger" data-i18n="offline"></span></td>
+                    <td ng-if="player.status"><span class="label label-success" i18n="online"></span></td>
+                    <td ng-if="!player.status"><span class="label label-danger" i18n="offline"></span></td>
                     <td><em>{{player.avgratio}}<em></td>
                     <td><em>{{player.score}}<em></td>
                 </tr>
