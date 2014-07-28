@@ -39,7 +39,9 @@ angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
 //# sourceMappingURL=app.js.map
 ;angular.module('minelogApp').controller('dashboardCtrl', [
   '$scope', 'socket', 'logger', function($scope, socket, logger) {
-    var subscribe, unsubscribe;
+    var subscribe, unsubscribe, _subURLs, _unsubURLs;
+    _subURLs = [];
+    _unsubURLs = [];
     subscribe = function() {
       socket.get('/dashboard/GlobalSubscribe', function(counters) {
         return $scope.counters = counters;
@@ -109,6 +111,10 @@ angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
 //# sourceMappingURL=LangCtrl.js.map
 ;angular.module('minelogApp').controller('minelogCtrl', [
   '$scope', '$location', function($scope, $location) {
+    $scope.$on('$routeChangeStart', function(next, current) {
+      console.log(next);
+      return console.log(current.$$route.controller);
+    });
     $scope.isSpecificPage = function() {
       var path;
       path = $location.path();

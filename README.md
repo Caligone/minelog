@@ -42,7 +42,6 @@ Here is a directories list :
   * `api.controllers`
   * `api.models`
   * `api.policies`
-  * `api.responses`
   * `api.services`
 * `assets` : Public ressources
   * `assets/css`

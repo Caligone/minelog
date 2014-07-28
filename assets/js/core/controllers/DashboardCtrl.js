@@ -1,6 +1,8 @@
 angular.module('minelogApp').controller('dashboardCtrl', [
   '$scope', 'socket', 'logger', function($scope, socket, logger) {
-    var subscribe, unsubscribe;
+    var subscribe, unsubscribe, _subURLs, _unsubURLs;
+    _subURLs = [];
+    _unsubURLs = [];
     subscribe = function() {
       socket.get('/dashboard/GlobalSubscribe', function(counters) {
         return $scope.counters = counters;
