@@ -146,16 +146,16 @@ module.exports = (grunt)->
     watch:
       js_core:
         files: ['client/**/*.coffee']
-        tasks: ['coffee:core', 'concat:core', 'uglify:core', 'sync:assets']
+        tasks: ['js_core', 'sync:assets']
       js_dependencies:
         files: ['assets/js/core/**/*.js']
-        tasks: ['concat:dependencies', 'uglify:dependencies', 'sync:assets']
+        tasks: ['js_dependencies', 'sync:assets']
       css_core:
         files: ['assets/css/core/**/*.css']
-        tasks: ['cssmin:core', 'sync:assets']
+        tasks: ['css_core', 'sync:assets']
       css_dependencies:
         files: ['assets/css/**/*.css']
-        tasks: ['cssmin:core', 'sync:assets']
+        tasks: ['css_dependencies', 'sync:assets']
 
 
   # JS
@@ -172,7 +172,21 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-watch')
 
 
-  grunt.registerTask('default', ['sync:assets'])
-  grunt.registerTask('all', ['coffee:core', 'concat:core', 'uglify:core', 'concat:dependencies', 'uglify:dependencies', 'cssmin:core', 'cssmin:dependencies', 'sync:assets'])
-  grunt.registerTask('core', ['coffee:core', 'concat:core', 'uglify:core', 'cssmin:core', 'sync:assets'])
-  grunt.registerTask('dependencies', ['concat:dependencies', 'uglify:dependencies', 'cssmin:dependencies', 'sync:assets'])
+
+  grunt.registerTask('js_core', ['coffee:core', 'concat:core', 'uglify:core'])
+  grunt.registerTask('css_core', ['cssmin:core'])
+
+  # JS + CSS Core
+  grunt.registerTask('core', ['js_core', 'css_core'])
+
+  grunt.registerTask('js_dependencies', ['concat:dependencies', 'uglify:dependencies'])
+  grunt.registerTask('css_dependencies', ['cssmin:dependencies'])
+
+  # JS + CSS Dependencies
+  grunt.registerTask('dependencies', ['js_dependencies', 'css_dependencies'])
+
+  # JS + CSS Dependencies and Core
+  grunt.registerTask('all', ['dependencies', 'core', 'sync:assets'])
+
+
+  grunt.registerTask('default', ['all'])
