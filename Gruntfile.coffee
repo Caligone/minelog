@@ -78,7 +78,7 @@ module.exports = (grunt)->
           #'assets/js/dependencies/jquery.placeholder.js'
           #'assets/js/dependencies/jquery.tagsinput.js'
           #'assets/js/dependencies/jquery.ui.touch-punch.min.js'
-          #'assets/js/dependencies/ng-infinite-scroll.min.js'
+          'assets/js/dependencies/ng-infinite-scroll.min.js'
           #'assets/js/dependencies/prettify.js'
           #'assets/js/dependencies/require.js'
           #'assets/js/dependencies/respond.min.js'
@@ -87,6 +87,7 @@ module.exports = (grunt)->
           'assets/js/dependencies/toastr.js'
           #'assets/js/dependencies/typeahead.js'
           #'assets/js/dependencies/ui-bootstrap.js'
+          #'assets/js/dependencies/ng-grid.js'
         ]
         dest: 'assets/linker/dependencies.js'
       # Concat assets/js/core/*.js into assets/linker/core.js

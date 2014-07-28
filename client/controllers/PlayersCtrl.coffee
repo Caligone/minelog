@@ -3,11 +3,11 @@ angular .module('minelogApp')
           subscribe = () ->
             socket.get('/playersList/PlayersListSubscribe', (players) ->
                 $scope.players = players
+                $scope.busy = false
             )
     
           unsubscribe = () ->
-            socket.get('/playersList/PlayersListUnsubscribe', (data) ->
-              )
+            socket.get('/playersList/PlayersListUnsubscribe', (data) ->)
             socket.removeListener('playersListUpdate')
 
 
@@ -21,6 +21,10 @@ angular .module('minelogApp')
           )
 
           subscribe()
+
+          $scope.busy = true
+          $scope.seeMore = () ->
+            console.log('seeMore')
 
           $scope.$on('$destroy', () ->
               unsubscribe()

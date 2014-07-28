@@ -3,7 +3,8 @@ angular.module('minelogApp').controller('playersCtrl', [
     var subscribe, unsubscribe;
     subscribe = function() {
       return socket.get('/playersList/PlayersListSubscribe', function(players) {
-        return $scope.players = players;
+        $scope.players = players;
+        return $scope.busy = false;
       });
     };
     unsubscribe = function() {
@@ -20,6 +21,10 @@ angular.module('minelogApp').controller('playersCtrl', [
       return $scope.players = players;
     });
     subscribe();
+    $scope.busy = true;
+    $scope.seeMore = function() {
+      return console.log('seeMore');
+    };
     return $scope.$on('$destroy', function() {
       return unsubscribe();
     });

@@ -1,9 +1,6 @@
 angular.module('minelogApp').controller('minelogCtrl', [
   '$scope', '$location', function($scope, $location) {
-    $scope.$on('$routeChangeStart', function(next, current) {
-      console.log(next);
-      return console.log(current.$$route.controller);
-    });
+    $scope.$on('$routeChangeStart', function(next, current) {});
     $scope.isSpecificPage = function() {
       var path;
       path = $location.path();

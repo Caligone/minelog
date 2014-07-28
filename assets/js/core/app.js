@@ -1,4 +1,4 @@
-angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
+angular.module('minelogApp', ['ngRoute', 'ngAnimate', 'infinite-scroll']).config([
   '$routeProvider', function($routeProvider) {
     return $routeProvider.when('/', {
       redirectTo: '/dashboard',

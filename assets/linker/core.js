@@ -1,4 +1,4 @@
-angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
+angular.module('minelogApp', ['ngRoute', 'ngAnimate', 'infinite-scroll']).config([
   '$routeProvider', function($routeProvider) {
     return $routeProvider.when('/', {
       redirectTo: '/dashboard',
@@ -39,9 +39,7 @@ angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
 //# sourceMappingURL=app.js.map
 ;angular.module('minelogApp').controller('dashboardCtrl', [
   '$scope', 'socket', 'logger', function($scope, socket, logger) {
-    var subscribe, unsubscribe, _subURLs, _unsubURLs;
-    _subURLs = [];
-    _unsubURLs = [];
+    var subscribe, unsubscribe;
     subscribe = function() {
       socket.get('/dashboard/GlobalSubscribe', function(counters) {
         return $scope.counters = counters;
@@ -111,10 +109,7 @@ angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
 //# sourceMappingURL=LangCtrl.js.map
 ;angular.module('minelogApp').controller('minelogCtrl', [
   '$scope', '$location', function($scope, $location) {
-    $scope.$on('$routeChangeStart', function(next, current) {
-      console.log(next);
-      return console.log(current.$$route.controller);
-    });
+    $scope.$on('$routeChangeStart', function(next, current) {});
     $scope.isSpecificPage = function() {
       var path;
       path = $location.path();
@@ -132,7 +127,8 @@ angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
     var subscribe, unsubscribe;
     subscribe = function() {
       return socket.get('/playersList/PlayersListSubscribe', function(players) {
-        return $scope.players = players;
+        $scope.players = players;
+        return $scope.busy = false;
       });
     };
     unsubscribe = function() {
@@ -149,6 +145,10 @@ angular.module('minelogApp', ['ngRoute', 'ngAnimate']).config([
       return $scope.players = players;
     });
     subscribe();
+    $scope.busy = true;
+    $scope.seeMore = function() {
+      return console.log('seeMore');
+    };
     return $scope.$on('$destroy', function() {
       return unsubscribe();
     });

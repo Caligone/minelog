@@ -32,6 +32,7 @@
     "servers-played": "Serveurs visités",
     "player-online": "est actuellement en ligne !",
     "beta-warning": "Minelog est actuellement en bêta. Signalez les bugs et aidez-nous à faire quelque chose d'exceptionnel !",
+    "loading": "Chargement en cours...",
 
     "empty": ""
 }
