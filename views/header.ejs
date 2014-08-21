@@ -1,7 +1,5 @@
 <header class="clearfix">
-    <a href="#/" data-toggle-min-nav
-                 class="toggle-min"
-                 ><i class="fa fa-bars"></i></a>
+    <a href="#/" toggle-min-nav class="toggle-min"><i class="fa fa-bars"></i></a>
 
     <div class="logo">
         <a href="#/">
@@ -16,36 +14,18 @@
     </div>
 
     <div class="top-nav">
-        <ul class="nav-right pull-right list-unstyled">
-            <li class="dropdown langs text-normal" data-ng-controller="LangCtrl">
+        <ul class="nav-right pull-right list-unstyled" ng-controller="LangCtrl">
+            <li class="dropdown langs text-normal">
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                     {{lang}}
                 </a>
                 <ul class="dropdown-menu with-arrow pull-right list-langs" role="menu">
-                    <li data-ng-show="lang !== 'English' ">
-                        <a href="javascript:;" data-ng-click="setLang('English')"><div class="flag flags-american"></div> English</a></li>
-                    <!--
-                    <li data-ng-show="lang !== 'Español' ">
-                        <a href="javascript:;" data-ng-click="setLang('Español')"><div class="flag flags-spain"></div> Español</a></li>
-                    <li data-ng-show="lang !== '日本語' ">
-                        <a href="javascript:;" data-ng-click="setLang('日本語')"><div class="flag flags-japan"></div> 日本語</a></li>
-                    <li data-ng-show="lang !== '中文' ">
-                        <a href="javascript:;" data-ng-click="setLang('中文')"><div class="flag flags-china"></div> 中文</a></li>
-                    <li data-ng-show="lang !== 'Deutsch' ">
-                        <a href="javascript:;" data-ng-click="setLang('Deutsch')"><div class="flag flags-german"></div> Deutsch</a></li>
-                    -->
-                    <li data-ng-show="lang !== 'Français' ">
-                        <a href="javascript:;" data-ng-click="setLang('Français')"><div class="flag flags-france"></div> Français</a></li>
-                    <!--
-                    <li data-ng-show="lang !== 'Italiano' ">
-                        <a href="javascript:;" data-ng-click="setLang('Italiano')"><div class="flag flags-italy"></div> Italiano</a></li>
-                    <li data-ng-show="lang !== 'Portugal' ">
-                        <a href="javascript:;" data-ng-click="setLang('Portugal')"><div class="flag flags-portugal"></div> Portugal</a></li>
-                    <li data-ng-show="lang !== 'Русский язык' ">
-                        <a href="javascript:;" data-ng-click="setLang('Русский язык')"><div class="flag flags-russia"></div> Русский язык</a></li>
-                    <li data-ng-show="lang !== '한국어' ">
-                        <a href="javascript:;" data-ng-click="setLang('한국어')"><div class="flag flags-korea"></div> 한국어</a></li>
-                    -->
+                    <li ng-show="lang !== 'English' ">
+                        <a href="javascript:;" ng-click="setLang('English')"><div class="flag flags-american"></div> English</a>
+                    </li>
+                    <li ng-show="lang !== 'Français' ">
+                        <a href="javascript:;" ng-click="setLang('Français')"><div class="flag flags-france"></div> Français</a>
+                    </li>
                 </ul>
             </li>
         </ul>

@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "FeebackCtrl.js",
+  "sourceRoot": "../../../../client/controllers/",
+  "sources": [
+    "FeebackCtrl.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA,OAAQ,CAAC,MAAT,CAAgB,YAAhB,CACE,CAAC,UADH,CACc,aADd,EAC6B,SAAC,MAAD,GAAA,CAD7B,CAAA,CAAA"
+}

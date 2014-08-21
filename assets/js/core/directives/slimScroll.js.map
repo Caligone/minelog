@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "slimScroll.js",
+  "sourceRoot": "../../../../client/directives/",
+  "sources": [
+    "slimScroll.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA,OAAQ,CAAC,MAAT,CAAgB,YAAhB,CACQ,CAAC,SADT,CACmB,YADnB,EACiC;EAAE,SAAA,GAAA;WACzB;AAAA,MACE,QAAA,EAAU,GADZ;AAAA,MAEE,IAAA,EAAM,SAAC,KAAD,EAAQ,GAAR,GAAA;eACJ,GAAG,CAAC,UAAJ,CAAe;AAAA,UACb,MAAA,EAAQ,MADK;SAAf,EADI;MAAA,CAFR;MADyB;EAAA,CAAF;CADjC,CAAA,CAAA"
+}

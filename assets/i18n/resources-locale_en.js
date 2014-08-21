@@ -32,6 +32,7 @@
     "servers-played": "Servers played",
     "player-online": "is currently online !",
     "beta-warning": "Minelog is currently in beta. Report bug and help us to make something awesome !",
+    "loading": "Loading...",
 
     "empty": ""
 }

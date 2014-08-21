@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Err500Ctrl.js",
+  "sourceRoot": "../../../../client/controllers/",
+  "sources": [
+    "Err500Ctrl.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA,OAAQ,CAAC,MAAT,CAAgB,YAAhB,CACQ,CAAC,UADT,CACoB,YADpB,EACkC,CAAC,QAAD,EAAW,SAAC,MAAD,GAAA,CAAX,CADlC,CAAA,CAAA"
+}

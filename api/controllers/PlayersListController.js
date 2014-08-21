@@ -8,7 +8,7 @@ module.exports = {
     sails.sockets.join(req.socket, 'playersListRoom');
     PlayersService.getPlayers(function(data) {
       res.json(data);
-    });
+    }, 50, 0);
   },
 
   playersListUnsubscribe: function(req, res) {
@@ -27,6 +27,5 @@ module.exports = {
    * (specific to APIController)
    */
   _config: {}
-
 
 };

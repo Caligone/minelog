@@ -17,7 +17,7 @@ var checkServer = function(req, res, key, callback) {
     }
     // Server unicity trouble
     else if(servers.length > 1) {
-        res.json({ status: -1, message: "Server unicity trouble" });
+        res.json({ status: -1, message: "Server unicity issue" });
     }
     // Server(s) found
     else {
