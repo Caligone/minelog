@@ -10164,6 +10164,8 @@ button.toast-close-button {
   -moz-transition: none;
   -o-transition: none;
   transition: none;
+  height: 100%;
+  overflow-y: auto;
 }
 @media (min-width: 768px) {
   #content {

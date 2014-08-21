@@ -1,9 +1,18 @@
 angular .module('minelogApp')
         .controller('playersCtrl', ['$scope', '$http', 'socket', ($scope, $http, socket) ->
+
+          # Remove duplicates from $scope.players
+          cleanPlayers = () ->
+            cache = {}
+            for player, index in $scope.players
+              if(player)
+                if(cache[player.id])
+                  $scope.players.splice(index, 1)
+                else
+                  cache[player.id] = 1
+
           subscribe = () ->
             socket.get('/playersList/PlayersListSubscribe', (players) ->
-                $scope.players = players
-                $scope.busy = false
             )
     
           unsubscribe = () ->
@@ -22,9 +31,32 @@ angular .module('minelogApp')
 
           subscribe()
 
-          $scope.busy = true
+          $scope.players = []
+          $scope.busy = false
+          $scope.page = 0
+
           $scope.seeMore = () ->
-            console.log('seeMore')
+            if($scope.busy)
+              return
+            $scope.busy = true
+            socket.get('/playersList/getPlayerPaginated?page=' + $scope.page, (players) ->
+              if(players.length != 0)
+                $scope.page++  
+              $scope.players = $scope.players.concat(players)
+              cleanPlayers()
+              $scope.busy = false
+            )
+
+          $scope.$watch('selected', () ->
+            if($scope.selected?.length < 3)
+              return
+            $scope.busy = true
+            socket.get('/playersList/getPlayerByPseudo?pseudo=' + $scope.selected, (players) ->
+              $scope.players = $scope.players.concat(players)
+              cleanPlayers()
+              $scope.busy = false
+            )
+          )
 
           $scope.$on('$destroy', () ->
               unsubscribe()

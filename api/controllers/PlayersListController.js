@@ -6,9 +6,6 @@ module.exports = {
 
   playersListSubscribe: function(req, res) {
     sails.sockets.join(req.socket, 'playersListRoom');
-    PlayersService.getPlayers(function(data) {
-      res.json(data);
-    }, 50, 0);
   },
 
   playersListUnsubscribe: function(req, res) {
@@ -19,6 +16,22 @@ module.exports = {
   getPlayerNames: function(req, res) {
     PlayersService.getPlayerNames(function(data) {
       res.json(data);
+    });
+  },
+
+  getPlayerPaginated: function(req, res) {
+    var nbPlayer = 50;
+    var page = req.param('page');
+    var skip = page*nbPlayer;
+    PlayersService.getPlayers(function(data) {
+      res.json(data);
+    }, nbPlayer, skip);
+  },
+
+  getPlayerByPseudo: function(req, res) {
+    var pseudo = req.param('pseudo');
+    Player.find().where({pseudo: {contains: pseudo}}).exec(function(err, players) {
+      res.json(players);
     });
   },
 

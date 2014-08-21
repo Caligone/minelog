@@ -10,7 +10,7 @@ exports.getPlayerNames = function(callback) {
 };
 
 exports.getPlayers = function(callback, limit, skip) {
-   Player.find().populate('stats').limit(limit).skip(skip).exec(function(err, players) {
+   Player.find().populate('stats').sort('pseudo').limit(limit).skip(skip).exec(function(err, players) {
       for(player in players) {
         var avgRatio = 0, nbRatio = 0;
         for(stat in players[player].stats) {

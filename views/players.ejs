@@ -10,9 +10,7 @@
             </div>
         </div>
     </section>
-    
-    <span ng-bind="'Debug : '+busy"></span>
-    
+        
     <table class="table">
         <thead>
             <tr>
@@ -22,15 +20,15 @@
                 <th i18n="score"></th>
             </tr>
         </thead>
-        <tbody infinite-scroll="seeMore()">
-            <tr class="animate" ng-repeat="player in players | filter:{ pseudo: selected }">
+        <tbody infinite-scroll="seeMore()" infinite-scroll-parent infinite-scroll-container="'#content'" infinite-scroll-disabled="busy">
+            <tr ng-repeat="player in players | filter:{ pseudo: selected }">
                 <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
                 <td ng-if="player.online"><span class="label label-success" i18n="online"></span></td>
                 <td ng-if="!player.online"><span class="label label-danger" i18n="offline"></span></td>
                 <td><em>{{player.avgRatio}}<em></td>
                 <td><em>N/A (yet)<em></td>
             </tr>
-            <tr class="animate" ng-show="busy"><td i18n="loading"></td></tr>
+            <tr ng-show="busy"><td i18n="loading"></td></tr>
         </tbody>
     </table>
 

@@ -1,37 +1,32 @@
-<section class="page-form-ele page"">
+<section class="page-form-ele page">
 
     <section class="panel panel-default">
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span i18n="search-a-server"></span></strong></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
-                    <input type="text"
-                           ng-model="selected"
-                           typeahead="serverName for serverName in serverNames | filter:$viewValue | limitTo:8"
-                           class="form-control"
-                           i18n="i18n-placeholder"
-                           placeholder="search">
+                    <input type="text" ng-model="selected" typeahead="serverName for serverName in serverNames | filter:$viewValue | limitTo:8" class="form-control" i18n="i18n-placeholder" placeholder="search">
                 </div>
             </div>
         </div>
     </section>
 
-  <table class="table">
-      <thead>
-          <tr>
-              <th i18n="name"></th>
-              <th i18n="status"></th>
-              <th i18n="players"></th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr class="animate" ng-repeat="server in servers | filter:{ name: selected }">
-              <td><a href="/#/server/{{server.id}}" alt="{{server.name}}">{{server.name}}</a></td>
-              <td ng-if="server.online"><span class="label label-success" i18n="online"></span></td>
-              <td ng-if="!server.online"><span class="label label-danger" i18n="offline"></span></td>
-              <td><div class="server-capacity">{{server.onlinePlayers}}/{{server.size}}</div><progressbar class="progressbar-xs no-margin" ng-attr-value="server.onlinePlayers/server.size*100" type="success"></progressbar></td>
-          </tr>
-      </tbody>
-  </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th i18n="name"></th>
+                <th i18n="status"></th>
+                <th i18n="players"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="server in servers | filter:{ name: selected }">
+                <td><a href="/#/server/{{server.id}}" alt="{{server.name}}">{{server.name}}</a></td>
+                <td ng-if="server.online"><span class="label label-success" i18n="online"></span></td>
+                <td ng-if="!server.online"><span class="label label-danger" i18n="offline"></span></td>
+                <td><div class="server-capacity">{{server.onlinePlayers}}/{{server.size}}</div><progressbar class="progressbar-xs no-margin" ng-attr-value="server.onlinePlayers/server.size*100" type="success"></progressbar></td>
+            </tr>
+        </tbody>
+    </table>
 
 </section>
