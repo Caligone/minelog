@@ -5,31 +5,32 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
-                    <input type="text" ng-model="selected" typeahead="playerName for playerName in playerNames | filter:$viewValue | limitTo:8" class="form-control" i18n="i18n-placeholder" placeholder="search">
+                    <input type="text" ng-model="selected" class="form-control" i18n="i18n-placeholder" placeholder="search">
                 </div>
             </div>
+
+            <table class="table" ng-init="seeMore()">
+                <thead>
+                    <tr>
+                        <th i18n="pseudo"></th>
+                        <th i18n="status"></th>
+                        <th i18n="ratio"></th>
+                        <th i18n="score"></th>
+                    </tr>
+                </thead>
+                <tbody infinite-scroll="seeMore()" infinite-scroll-parent infinite-scroll-container="'#content'" infinite-scroll-disabled="busy">
+                    <tr ng-repeat="player in players | filter:{ pseudo: selected }">
+                        <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}" ng-bind="player.pseudo"></a></td>
+                        <td ng-if="player.online"><span class="label label-success" i18n="online"></span></td>
+                        <td ng-if="!player.online"><span class="label label-danger" i18n="offline"></span></td>
+                        <td><em ng-bind="player.avgRatio"><em></td>
+                        <td><em>N/A (yet)<em></td>
+                    </tr>
+                    <tr ng-show="busy"><td i18n="loading"></td></tr>
+                </tbody>
+            </table>
+
         </div>
     </section>
-        
-    <table class="table">
-        <thead>
-            <tr>
-                <th i18n="pseudo"></th>
-                <th i18n="status"></th>
-                <th i18n="ratio"></th>
-                <th i18n="score"></th>
-            </tr>
-        </thead>
-        <tbody infinite-scroll="seeMore()" infinite-scroll-parent infinite-scroll-container="'#content'" infinite-scroll-disabled="busy">
-            <tr ng-repeat="player in players | filter:{ pseudo: selected }">
-                <td><a href="/#/profile/{{player.id}}" alt="{{player.pseudo}}">{{player.pseudo}}</a></td>
-                <td ng-if="player.online"><span class="label label-success" i18n="online"></span></td>
-                <td ng-if="!player.online"><span class="label label-danger" i18n="offline"></span></td>
-                <td><em>{{player.avgRatio}}<em></td>
-                <td><em>N/A (yet)<em></td>
-            </tr>
-            <tr ng-show="busy"><td i18n="loading"></td></tr>
-        </tbody>
-    </table>
 
 </section>

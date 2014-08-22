@@ -99,6 +99,8 @@ module.exports = (grunt)->
 
     # Uglify dependencies and core
     uglify:
+      options:
+        sourceMap: true
     # Uglify assets/linker/dependencies.js
       dependencies:
         files:

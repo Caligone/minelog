@@ -16,9 +16,7 @@
     <div class="top-nav">
         <ul class="nav-right pull-right list-unstyled" ng-controller="LangCtrl">
             <li class="dropdown langs text-normal">
-                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                    {{lang}}
-                </a>
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" ng-bind="lang"></a>
                 <ul class="dropdown-menu with-arrow pull-right list-langs" role="menu">
                     <li ng-show="lang !== 'English' ">
                         <a href="javascript:;" ng-click="setLang('English')"><div class="flag flags-american"></div> English</a>

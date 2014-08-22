@@ -9,7 +9,7 @@ An (awesome) plateform for Minecraft players. Working with a server-side plugin 
 First, you will need to install [nodejs](http://nodejs.org/) and [npm](https://www.npmjs.org/‎) if it is not already done. [Mongodb](https://www.mongodb.org/) is also required.
 After cloning this repo, install the sails dependency:
 ```sh
-npm install -g sails@beta
+npm install -g sails
 ```
 Then install dependencies:
 ```sh
@@ -37,7 +37,7 @@ To populate the database :
 
 ### Directories
 
-Here is a directories list :
+Here is a working directories :
 * `api` : Backend
   * `api.controllers`
   * `api.models`
@@ -84,9 +84,6 @@ The followings methods are used by the Bukkit plugin :
 
 ## ToDo
 
-- Reorganize the Controllers
-- Replace `{{ var }}` by `ng-bind="var"`
-- Optimize Server and Player Page (infinite scroll?)
 - Player profile page
 - Server profile page
 - Embed http://ricostacruz.com/nprogress/
@@ -99,6 +96,9 @@ The followings methods are used by the Bukkit plugin :
 
 ## Done
 
+- Optimize Server and Player Page (infinite scroll?)
+- Reorganize the Controllers
+- Replace `{{ var }}` by `ng-bind="var"` (except on /player & /server)
 - Improve workflow (less/sass, bower, grunt, etc.)
 - Remove CoffeeScript from assets directory
 - Implement Skin creation (ovski ws)

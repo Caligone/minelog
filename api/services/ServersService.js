@@ -9,8 +9,8 @@ exports.getServerNames = function(callback) {
   });
 };
 
-exports.getServers = function(callback) {
-  Server.find().exec(function(err, servers) {
+exports.getServers = function(callback, limit, skip) {
+  Server.find().limit(limit).skip(skip).exec(function(err, servers) {
     callback(servers);
   });
 };

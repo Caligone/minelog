@@ -1,6 +1,12 @@
 angular .module('minelogApp')
         .controller('playersCtrl', ['$scope', '$http', 'socket', ($scope, $http, socket) ->
 
+          # Initialization
+          $scope.players = []
+          $scope.page = 0
+          $scope.busy = false
+          $scope.selected = ''
+
           # Remove duplicates from $scope.players
           cleanPlayers = () ->
             cache = {}
@@ -11,47 +17,43 @@ angular .module('minelogApp')
                 else
                   cache[player.id] = 1
 
+          # Subscribe to the room
           subscribe = () ->
-            socket.get('/playersList/PlayersListSubscribe', (players) ->
-            )
+            socket.get('/playersList/PlayersListSubscribe', (players) -> )
     
+          # Unubscribe to the room
           unsubscribe = () ->
-            socket.get('/playersList/PlayersListUnsubscribe', (data) ->)
+            socket.get('/playersList/PlayersListUnsubscribe', (data) -> )
             socket.removeListener('playersListUpdate')
 
-
-          $http({method: 'GET', url: '/playersList/playerNames'})
-          .success((playerNames) ->
-              $scope.playerNames = playerNames
-          )
-
+          # Update $scope.players on room broadcast
           socket.on('playersListUpdate', (players) ->
-              $scope.players = players
+              $scope.players.concat(players)
+              cleanPlayers()
           )
 
-          subscribe()
-
-          $scope.players = []
-          $scope.busy = false
-          $scope.page = 0
-
+          # Populate the table with another page
           $scope.seeMore = () ->
             if($scope.busy)
               return
             $scope.busy = true
-            socket.get('/playersList/getPlayerPaginated?page=' + $scope.page, (players) ->
+            socket.get('/playersList/getPlayersPaginated?page=' + $scope.page, (players) ->
               if(players.length != 0)
-                $scope.page++  
+                $scope.page++
               $scope.players = $scope.players.concat(players)
               cleanPlayers()
               $scope.busy = false
             )
 
+          # Subscribe and populate the table a first time
+          subscribe()
+
+          # Add specific player when their name are type in the selected field
           $scope.$watch('selected', () ->
             if($scope.selected?.length < 3)
               return
             $scope.busy = true
-            socket.get('/playersList/getPlayerByPseudo?pseudo=' + $scope.selected, (players) ->
+            socket.get('/playersList/getPlayersByPseudo?pseudo=' + $scope.selected, (players) ->
               $scope.players = $scope.players.concat(players)
               cleanPlayers()
               $scope.busy = false
